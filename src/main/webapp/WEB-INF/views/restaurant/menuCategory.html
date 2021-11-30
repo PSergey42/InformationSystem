@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+</head>
+<body>
+
+<a href="/restaurant/category/menu">Menu</a>
+
+<table border="1" style="width:300px">
+    <tr>
+        <td>Category:</td>
+    </tr>
+    <tr th:each="menuCategory : ${category}">
+        <td th:text="${menuCategory.getNameCategory()}">
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

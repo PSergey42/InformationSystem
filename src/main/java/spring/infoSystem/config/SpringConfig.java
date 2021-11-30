@@ -1,4 +1,4 @@
-package config;
+package spring.infoSystem.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +13,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
-@ComponentScan("controllers")
+@ComponentScan("spring.infoSystem")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
 

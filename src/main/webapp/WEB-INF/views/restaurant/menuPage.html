@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+</head>
+<body>
+<table border="1" style="width:300px">
+    <tr>
+        <td>NameDishes:   </td>
+        <td>Category:     </td>
+        <td>Price:        </td>
+    </tr>
+    <tr th:each="menu : ${menuIndex}">
+        <td th:text="${menu.getNameDishes()}"></td>
+        <td th:text="${menu.getNameCategory()}"></td>
+        <td th:text="${menu.getPrice() + '$'}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
