@@ -6,14 +6,12 @@
 </head>
 <body>
 
-<a href="/restaurant/category/menu">Menu</a>
-
 <table border="1" style="width:300px">
     <tr>
         <td>Category:</td>
     </tr>
     <tr th:each="menuCategory : ${category}">
-        <td th:text="${menuCategory.getNameCategory()}">
+        <td> <a th:href = "@{/category/{nameCategory}(nameCategory=${menuCategory.getNameCategory()})}" th:text="${menuCategory.getNameCategory()}"></a>
         </td>
     </tr>
 </table>
