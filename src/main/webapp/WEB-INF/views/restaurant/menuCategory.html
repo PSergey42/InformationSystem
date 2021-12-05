@@ -11,7 +11,8 @@
         <td>Category:</td>
     </tr>
     <tr th:each="menuCategory : ${category}">
-        <td> <a th:href = "@{/category/{nameCategory}(nameCategory=${menuCategory.getNameCategory()})}" th:text="${menuCategory.getNameCategory()}"></a>
+        <td> <a th:href = "@{/restaurant/category/{nameCategory}(nameCategory=${menuCategory.getNameCategory()})}"
+                th:text="${menuCategory.getNameCategory()}"></a>
         </td>
     </tr>
 </table>
