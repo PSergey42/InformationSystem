@@ -11,6 +11,7 @@ public class Restaurant {
     private String nameCategory;
     private List<Menu> dishes;
     public Restaurant() {
+        this.dishes = new ArrayList<>();
     }
 
     public Restaurant(String nameCategory) {
