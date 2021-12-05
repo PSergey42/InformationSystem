@@ -16,6 +16,21 @@
         </td>
     </tr>
 </table>
+<br/>
+<form th:method="POST" th:action="@{/restaurant}" th:object="${newCategory}">
+    <label for="name">Enter name category</label>
+    <input type="text" th:field="*{nameCategory}" id="name"/>
+    <br/>
+    <input type="submit" value="Create" />
+</form>
 
+<br/>
+
+<form th:method="DELETE" th:action="@{/restaurant/category}" >
+    <label for="nameCategory">Enter name category</label>
+    <input type="text" name="nameCategoryDelete" id="nameCategory"/>
+    <br/>
+    <input type="submit" value="Delete" />
+</form>
 </body>
 </html>

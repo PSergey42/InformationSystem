@@ -10,6 +10,8 @@ public class Restaurant {
 
     private String nameCategory;
     private List<Menu> dishes;
+    public Restaurant() {
+    }
 
     public Restaurant(String nameCategory) {
         this.nameCategory = nameCategory;
@@ -30,6 +32,9 @@ public class Restaurant {
 
     public void addMenuToCategory(Menu menu){
         dishes.add(menu);
+    }
+    public void deleteDishByName(String nameDish){
+        dishes.removeIf(c -> c.getNameDish().equals(nameDish));
     }
 
 }

@@ -17,6 +17,25 @@
         <td th:text="${menu.getPrice() + '$'}"></td>
     </tr>
 </table>
+<br/>
+<form th:method="POST" th:action="@{/restaurant/category/{nameCategory}(nameCategory=${newMenu.getNameCategory()})}" th:object="${newMenu}">
+    <label for="name">Enter name dish</label>
+    <input type="text" th:field="*{nameDish}" id="name"/>
+    <br/>
+    <label for="price">Enter price dish</label>
+    <input type="text" th:field="*{price}" id="price"/>
+    <br/>
+    <input type="submit" value="add" />
+</form>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/restaurant/category/{nameCategory}(nameCategory=${newMenu.getNameCategory()})}" >
+    <label for="nameDish">Enter name dish</label>
+    <input type="text" name="nameDishDelete" id="nameDish"/>
+    <br/>
+    <input type="submit" value="Delete" />
+</form>
 
 </body>
 </html>

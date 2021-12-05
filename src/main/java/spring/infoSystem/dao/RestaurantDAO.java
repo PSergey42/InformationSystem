@@ -66,5 +66,24 @@ public class RestaurantDAO {
                 .filter(menu -> Objects.equals(menu.getNameCategory(), name))
                 .collect(Collectors.toList());
     }
+    public void save(Restaurant restaurant){
+        categories.add(restaurant);
+    }
+    public void save(Menu menu){
+        for (Restaurant restaurant: categories){
+            if(restaurant.getNameCategory().equals(menu.getNameCategory())) restaurant.addMenuToCategory(menu);
+        }
+    }
+    public void deleteMenu(String nameDish){
+        for (Restaurant restaurant: categories){
+            for (Menu menu: restaurant.getDishes()){
+                if(menu.getNameDish().equals(nameDish)) restaurant.deleteDishByName(nameDish);
+            }
+        }
+
+    }
+    public void deleteCategory(String nameCategory){
+        categories.removeIf(c -> c.getNameCategory().equals(nameCategory));
+    }
 
 }

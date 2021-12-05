@@ -12,6 +12,9 @@ public class Menu {
         this.price = price;
     }
 
+    public Menu(String nameCategory) {
+        this.nameCategory = nameCategory;
+    }
     public Menu() {
     }
 
@@ -19,7 +22,7 @@ public class Menu {
         return nameDishes;
     }
 
-    public void setNameDishes(String nameDishes) {
+    public void setNameDish(String nameDishes) {
         this.nameDishes = nameDishes;
     }
 
@@ -33,6 +36,10 @@ public class Menu {
 
     public double getPrice() {
         return price;
+    }
+
+    public void setPrice(double price) {
+         this.price = price;
     }
 
 
