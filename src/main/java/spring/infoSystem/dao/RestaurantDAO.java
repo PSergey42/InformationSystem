@@ -79,9 +79,7 @@ public class RestaurantDAO {
 
     public void deleteMenu(String nameDish){
         for (Restaurant restaurant: categories){
-            for (Menu menu: restaurant.getDishes()){
-                if(menu.getNameDish().equals(nameDish)) restaurant.deleteDishByName(nameDish);
-            }
+            restaurant.getDishes().removeIf(c -> nameDish.equals(c.getNameDish()));
         }
 
     }
@@ -89,5 +87,14 @@ public class RestaurantDAO {
     public void deleteCategory(String nameCategory){
         categories.removeIf(c -> c.getNameCategory().equals(nameCategory));
     }
+
+    public List<Menu> searchDish(String search){
+        List<Menu> menus = new ArrayList<>();
+        for (Restaurant restaurant: categories){
+            restaurant.getDishes().stream().filter(x -> x.getNameDish().indexOf(search) != -1).forEach(x -> menus.add(x));
+        }
+        return menus;
+    }
+
 
 }
