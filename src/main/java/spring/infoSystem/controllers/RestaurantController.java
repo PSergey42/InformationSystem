@@ -5,11 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.infoSystem.dao.RestaurantDAO;
+import spring.infoSystem.model.DishInfo;
 import spring.infoSystem.model.Menu;
 import spring.infoSystem.model.Restaurant;
 
 @Controller
-@RequestMapping("/restaurant")
+//@RequestMapping("/restaurant")
 public class RestaurantController {
 
     private final RestaurantDAO dao;
@@ -47,22 +48,23 @@ public class RestaurantController {
     @PostMapping()
     public String create(@ModelAttribute("restaurant") Restaurant restaurant){
         dao.save(restaurant);
-        return "redirect:/restaurant/category";
+        return "redirect:/category";
     }
     @PostMapping("/category/{nameCategory}")
-    public String createMenu(@ModelAttribute("menu") Menu menu){
-        dao.save(menu);
-        return "redirect:/restaurant/category/{nameCategory}";
+    public String createMenu(@ModelAttribute("menu") Menu menu,
+                            @ModelAttribute("dish") DishInfo dish){
+        dao.save(menu, dish);
+        return "redirect:/category/{nameCategory}";
     }
     @DeleteMapping("/category/{nameCategory}")
-    public String deleteMenu(@RequestParam(required=false) String nameDishDelete){
-        dao.deleteMenu(nameDishDelete);
-        return "redirect:/restaurant/category/{nameCategory}";
+    public String deleteDish(@PathVariable("nameCategory") String name){
+        dao.deleteMenu(name);
+        return "redirect:/menu";
     }
     @DeleteMapping("/category")
     public String deleteCategory(@RequestParam(required=false) String nameCategoryDelete){
         dao.deleteCategory(nameCategoryDelete);
-        return "redirect:/restaurant/category";
+        return "redirect:/category";
     }
 
     @PostMapping("/search")
@@ -70,4 +72,20 @@ public class RestaurantController {
         model.addAttribute("searchList", dao.searchDish(search));
         return "/restaurant/index";
     }
+
+    @GetMapping("/menu/show/{nameMenu}")
+    public String showDish(@PathVariable("nameMenu") String nameMenu,
+                               Model model){
+        model.addAttribute("editMenu", dao.showMenu(nameMenu));
+        model.addAttribute("showDish", dao.getDishInfoFromMenu(nameMenu));
+        return "restaurant/show";
+    }
+
+    @PatchMapping("/{nameMenu}")
+    public String update(@PathVariable("nameMenu") String name,
+                         @ModelAttribute("edit") DishInfo dish){
+        dao.update(name, dish);
+        return "redirect:/menu/show/{nameMenu}";
+    }
+
 }

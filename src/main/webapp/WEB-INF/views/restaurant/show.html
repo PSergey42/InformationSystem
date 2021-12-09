@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+
+<table border="1" style="width:300px">
+    <tr>
+        <td>NameDishes:   </td>
+        <td>Consist:     </td>
+        <td>Calories:        </td>
+        <td>Weight:</td>
+        <td>Category: </td>
+        <td>Price: </td>
+    </tr>
+    <tr th:each="dish : ${showDish}">
+        <td th:text="${editMenu.getNameDish()}"></td>
+        <td th:text="${dish.getConsistDish()}"></td>
+        <td th:text="${dish.getCalories()}"></td>
+        <td th:text="${dish.getWeight()}"></td>
+        <td th:text="${editMenu.getNameCategory()}"></td>
+        <td th:text="${editMenu.getPrice()} + '$'"></td>
+    </tr>
+</table>
+
+<form th:method="PATCH" th:action="@{/{nameMenu}(nameMenu=${editMenu.getNameDish()})}"
+      th:object="${showDish}">
+    <label for="consist">Enter name: </label>
+    <input type="text" th:field="*{consistDish}" id="consist"/>
+
+    <label for="calories">Enter price: </label>
+    <input type="text" th:field="*{calories}" id="calories"/>
+
+    <label for="weight">Enter price: </label>
+    <input type="text" th:field="*{weight}" id="weight"/>
+
+    <br/>
+    <input type="submit" value="Update!"/>
+</form>
+<form th:method="DELETE" th:action="@{/category/{nameCategory}(nameCategory=${editMenu.getNameDish()})}" >
+    <br/>
+    <input type="submit" value="Delete" />
+</form>
+
+</body>
+</html>

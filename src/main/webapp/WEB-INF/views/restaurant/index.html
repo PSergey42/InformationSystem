@@ -7,11 +7,11 @@
 <body>
 Welcome to our Restaurant
 
-<p><a th:href="@{/restaurant/category}">View menu category!</a></p>
-<p><a th:href="@{/restaurant/menu}">View all menu!</a></p>
+<p><a th:href="@{/category}">View menu category!</a></p>
+<p><a th:href="@{/menu}">View all menu!</a></p>
 
 
-<form th:method="POST" th:action="@{/restaurant/search}">
+<form th:method="POST" th:action="@{/search}">
     <label for="search">Enter name category</label>
     <input type="text" name="search" id="search"/>
     <br/>

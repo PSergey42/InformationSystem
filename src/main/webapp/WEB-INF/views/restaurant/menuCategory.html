@@ -11,13 +11,13 @@
         <td>Category:</td>
     </tr>
     <tr th:each="menuCategory : ${category}">
-        <td> <a th:href = "@{/restaurant/category/{nameCategory}(nameCategory=${menuCategory.getNameCategory()})}"
+        <td> <a th:href = "@{/category/{nameCategory}(nameCategory=${menuCategory.getNameCategory()})}"
                 th:text="${menuCategory.getNameCategory()}"></a>
         </td>
     </tr>
 </table>
 <br/>
-<form th:method="POST" th:action="@{/restaurant}" th:object="${newCategory}">
+<form th:method="POST" th:action="@{/}" th:object="${newCategory}">
     <label for="name">Enter name category</label>
     <input type="text" th:field="*{nameCategory}" id="name"/>
     <br/>
@@ -26,7 +26,7 @@
 
 <br/>
 
-<form th:method="DELETE" th:action="@{/restaurant/category}" >
+<form th:method="DELETE" th:action="@{/category}" >
     <label for="nameCategory">Enter name category</label>
     <input type="text" name="nameCategoryDelete" id="nameCategory"/>
     <br/>

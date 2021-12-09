@@ -12,13 +12,15 @@
         <td>Price:        </td>
     </tr>
     <tr th:each="menu : ${menuIndex}">
-        <td th:text="${menu.getNameDish()}"></td>
+        <td>
+            <a th:href="@{/menu/show/{menu}(menu=${menu.getNameDish()})}" th:text="${menu.getNameDish()}"></a>
+        </td>
         <td th:text="${menu.getNameCategory()}"></td>
         <td th:text="${menu.getPrice() + '$'}"></td>
     </tr>
 </table>
 <br/>
-<form th:method="POST" th:action="@{/restaurant/category/{nameCategory}(nameCategory=${newMenu.getNameCategory()})}" th:object="${newMenu}">
+<form th:method="POST" th:action="@{/category/{nameCategory}(nameCategory=${newMenu.getNameCategory()})}" th:object="${newMenu}">
     <label for="name">Enter name dish</label>
     <input type="text" th:field="*{nameDish}" id="name"/>
     <br/>
@@ -29,13 +31,6 @@
 </form>
 
 <br/>
-
-<form th:method="DELETE" th:action="@{/restaurant/category/{nameCategory}(nameCategory=${newMenu.getNameCategory()})}" >
-    <label for="nameDish">Enter name dish</label>
-    <input type="text" name="nameDishDelete" id="nameDish"/>
-    <br/>
-    <input type="submit" value="Delete" />
-</form>
 
 </body>
 </html>
