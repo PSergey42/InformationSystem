@@ -2,33 +2,32 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Restaurant</title>
 </head>
 <body>
-Welcome to our Restaurant
-
-<p><a th:href="@{/category}">View menu category!</a></p>
-<p><a th:href="@{/menu}">View all menu!</a></p>
-
-
-<form th:method="POST" th:action="@{/search}">
-    <label for="search">Enter name category</label>
-    <input type="text" name="search" id="search"/>
-    <br/>
-    <input type="submit" value="Search" />
-</form>
+<div class="dws-menu">
+    <ul class="dws-ul">
+      <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
+      <li class="dws-li"><a th:href="@{/category}"><i aria-hidden="true"></i>Category</a></li>
+      <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>Menu</a></li>
+    </ul>
+  </div>
 <br/>
-<table border="1" style="width:300px">
-    <tr>
-        <td>NameDishes:   </td>
-        <td>Category:     </td>
-        <td>Price:        </td>
-    </tr>
-    <tr th:each="menu : ${searchList}">
-        <td th:text="${menu.getNameDish()}"></td>
-        <td th:text="${menu.getNameCategory()}"></td>
-        <td th:text="${menu.getPrice() + '$'}"></td>
-    </tr>
-</table>
+<div class="d6">
+<form th:method="POST" th:action="@{/search}">
+    <input type="text" name="search" placeholder="Search..."/>
+    <button type="submit"></button>
+</form>
+</div>
+<br/>
+<ul class="dotted">
+    <li  th:each="menu : ${searchList}">
+        <a th:href = "@{/menu/show/{nameMenu}(nameMenu=${menu.getNameDish()})}"
+        th:text="${menu.getNameDish()}"></a></li>
+</ul>
+
+
 </body>
 </html>

@@ -1,0 +1,105 @@
+body{
+ background-image: url("/img/escheresque_ste.png");
+ font-family: Verdana;
+}
+.dws-menu{
+ background-color: white;
+ width: 100%;
+}
+ul.dws-ul{
+ display: flex;
+ padding: 0;
+ justify-content: center;
+}
+li.dws-li{
+ list-style: none;
+ padding: 10px;
+}
+li.dws-li a{
+ text-decoration: none;
+ font-size: 18px;
+ color: #000;
+ padding: 5px;
+}
+li.dws-li a i{
+ margin-right: 10px;
+}
+li.dws-li:hover{
+ background-color: #e5eae8;
+}
+li.dws-li a:hover{
+ color: #e62117;
+}
+
+
+
+input::-webkit-input-placeholder {
+    color: #9b9b9b; 
+    font-style: italic;
+    font-size: 12pt;
+  }
+.d6 input {
+  height: 60px;
+  width: 0;
+  padding: 0 42px 0 15px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  outline: none;
+  background: transparent;
+  transition: .4s cubic-bezier(0, 0.8, 0, 1);
+  position: absolute;
+  top: 20%;
+  right: 40%;
+  z-index: 2;
+  font-size: 12pt;
+  color: #9b9b9b;
+}
+.d6 input:focus {
+  width: 300px;
+  z-index: 1;
+  border-bottom: 4px solid #F9F0DA;
+}
+.d6 button {
+  background: #683B4D;
+  border: none;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  top: 20%;
+  right: 40%;
+  cursor: pointer;
+}
+.d6 button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 32px;
+  color: #111110;
+}
+
+
+
+
+
+.dotted {
+    list-style: none;
+    font-family: 'Marck Script', cursive;
+    margin-top:200px;
+    margin-left:40%;
+    margin-right:30%;
+    }
+    .dotted li {
+    font-size: 26px;
+    line-height: 1;
+    padding-right: 6px;
+    color: #1956e0;
+    }
+
+
+
+
+
+
+
+
+
+
