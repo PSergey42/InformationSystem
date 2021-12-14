@@ -95,8 +95,78 @@ input::-webkit-input-placeholder {
     }
 
 
+.menu-links{
+    text-align:center;
+}
+.menu-links__item{
+    color:#bdbdbd;
+    font-size:16px;
+    display:inline-block;
+    margin-left:15px;
+    margin-right:15px;
+    margin-top:10px;
+    -webkit-transition:all 0.25s;
+    -o-transition:all 0.25s;
+    transition:all 0.25s;
+    border-bottom:2px solid transparent;
+}
+
+.menu-links__item:hover{
+    border-bottom:2px solid #FFF;
+    color:#FFF;
+}
 
 
+.form{
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+    border-style:solid;
+    border-width: 5px;
+    width: 440px;
+    height: 120px;
+    border-color:#287EC7;
+}
+
+
+
+.dish {
+    list-style: none;
+    font-family: 'Marck Script', cursive;
+    margin-left:30%;
+    margin-right:30%;
+}
+.dish li {
+    margin-bottom: 5px;
+    border-bottom: 2px #404B51 dotted;
+    font-size: 26px;
+    line-height: 1;
+}
+.dish li span:nth-child(odd) {
+    padding-right: 6px;
+    color: #404B51;
+}
+.dish li span:nth-child(even) {
+    float: right;
+    padding-left: 6px;
+    color: #35D1CE;
+}
+.dish span {
+    background: white;
+    position: relative;
+    bottom: -7px;
+}
+
+.form2{
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    border-style:solid;
+    border-width: 5px;
+    width: 200px;
+    height: 200px;
+    border-color:#287EC7;
+}
 
 
 

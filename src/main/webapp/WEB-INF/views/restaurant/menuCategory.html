@@ -2,21 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Category</title>
 </head>
 <body>
-
-<table border="1" style="width:300px">
-    <tr>
-        <td>Category:</td>
-    </tr>
-    <tr th:each="menuCategory : ${category}">
-        <td> <a th:href = "@{/category/{nameCategory}(nameCategory=${menuCategory.getNameCategory()})}"
-                th:text="${menuCategory.getNameCategory()}"></a>
-        </td>
-    </tr>
-</table>
+<div class="dws-menu">
+    <ul class="dws-ul">
+        <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
+        <li class="dws-li"><a th:href="@{/category}"><i aria-hidden="true"></i>Category</a></li>
+        <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>Menu</a></li>
+    </ul>
+</div>
 <br/>
+
+<div class="menu-links" th:each="menuCategory : ${category}">
+        <a th:href = "@{/category/{nameCategory}(nameCategory=${menuCategory.getNameCategory()})}" class="menu-links__item "
+           th:text="${menuCategory.getNameCategory()}"></a>
+</div>
+
+<br/>
+
+<div class="form">
 <form th:method="POST" th:action="@{/}" th:object="${newCategory}">
     <label for="name">Enter name category</label>
     <input type="text" th:field="*{nameCategory}" id="name"/>
@@ -32,5 +39,6 @@
     <br/>
     <input type="submit" value="Delete" />
 </form>
+</div>
 </body>
 </html>
