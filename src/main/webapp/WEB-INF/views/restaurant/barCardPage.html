@@ -17,9 +17,21 @@
     </ul>
 </div>
 
+<div class="d6">
+    <form th:method="POST" th:action="@{/drink}">
+        <input type="text" name="search" placeholder="Search..."/>
+        <button type="submit"></button>
+    </form>
+</div>
+<br/>
+<ul class="dotted">
+    <li  th:each="drink : ${searchListDrink}">
+        <a th:href = "@{/showDrink/{drink}(drink=${drink.getNameDrink})}" th:text="${drink.getNameDrink}"></a></li>
+</ul>
+
 <table border="1" style="width:300px">
     <tr>
-        <td>NameDishes:   </td>
+        <td>NameDrink:   </td>
         <td>Category:     </td>
         <td>Price:        </td>
     </tr>

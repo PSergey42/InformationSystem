@@ -18,6 +18,19 @@
 </div>
 <br/>
 
+<div class="d6">
+    <form th:method="POST" th:action="@{/menu}">
+        <input type="text" name="search" placeholder="Search..."/>
+        <button type="submit"></button>
+    </form>
+</div>
+<br/>
+<ul class="dotted">
+    <li  th:each="menu : ${searchListDish}">
+        <a th:href = "@{/menu/showDish/{dish}(dish=${menu.getNameDish()})}"
+           th:text="${menu.getNameDish()}"></a></li>
+</ul>
+
 <table border="1" style="width:300px">
     <tr>
         <td>NameDishes:   </td>

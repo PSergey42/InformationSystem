@@ -119,10 +119,16 @@ public class RestaurantController {
         return "redirect:/";
     }
 
-    @PostMapping("/search")
+    @PostMapping("/menu")
     public String searchDish(@RequestParam(required=false) String search, Model model){
-        model.addAttribute("searchList", dao.searchDish(search));
-        return "/restaurant/index";
+        model.addAttribute("searchListDish", dao.searchDish(search));
+        return "/restaurant/generalMenuPage";
+    }
+
+    @PostMapping("/drink")
+    public String searchDrink(@RequestParam(required=false) String search, Model model){
+        model.addAttribute("searchListDrink", dao.searchDrink(search));
+        return "/restaurant/barCardPage";
     }
 
     @GetMapping("/menu/showDish/{nameMenu}")
