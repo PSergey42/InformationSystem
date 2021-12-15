@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.infoSystem.dao.RestaurantDAO;
-import spring.infoSystem.model.DishInfo;
-import spring.infoSystem.model.Menu;
-import spring.infoSystem.model.Restaurant;
+import spring.infoSystem.model.BarCard;
+import spring.infoSystem.model.Category;
+import spring.infoSystem.model.Dish;
 
 @Controller
 //@RequestMapping("/restaurant")
@@ -25,46 +25,92 @@ public class RestaurantController {
         return "restaurant/index";
     }
 
-    @GetMapping("/category")
-    public String showCategoryMenu(Model model){
-        model.addAttribute("newCategory", new Restaurant());
-        model.addAttribute("category", dao.showListCategory());
-        return "restaurant/menuCategory";
+//    @GetMapping("/typeMenu")
+//    public String showAllTypeMenu(Model model){
+//        model.addAttribute("typeMenu", dao.showTypeMenu());
+//        return "restaurant/typeMenu";
+//    }
+
+//    @GetMapping("/category")
+//    public String showCategoryMenu(Model model){
+//        model.addAttribute("newCategory", new Category());
+//        model.addAttribute("type", dao.showListCategory());
+//        return "restaurant/menuCategory";
+//    }
+
+    @GetMapping("/typeMenu/OneType/{typeMenu}")
+    public String showGeneralMenuFromType(@PathVariable("typeMenu") String typeMenu, Model model){
+        model.addAttribute("newCategory", new Category(typeMenu));
+        model.addAttribute("type", dao.showListFromType(typeMenu));
+        return "restaurant/generalMenu";
+    }
+
+    @GetMapping("/typeMenu/TwoType/{typeMenu}")
+    public String showBarCardFromType(@PathVariable("typeMenu") String typeMenu, Model model){
+        model.addAttribute("newCategory", new Category(typeMenu));
+        model.addAttribute("barCard", dao.showListFromType(typeMenu));
+        return "restaurant/barCard";
     }
 
     @GetMapping("/menu")
     public String showAllMenu(Model model){
-        model.addAttribute("menuIndex", dao.showListAllMenu());
-        return "restaurant/menuPage";
+        model.addAttribute("dishIndex", dao.showListAllDish());
+        return "restaurant/generalMenuPage";
     }
 
-    @GetMapping("/category/{nameCategory}")
+    @GetMapping("/drink")
+    public String showAllDrink(Model model){
+        model.addAttribute("barCardIndex", dao.getBarCard());
+        return "restaurant/barCardPage";
+    }
+
+    @GetMapping("/typeMenu/OneType/category/{nameCategory}")
     public String showMenuByCategory(@PathVariable("nameCategory") String nameCategory, Model model){
-        model.addAttribute("newMenu", new Menu(nameCategory));
-        model.addAttribute("menuIndex", dao.getListMenuFromCategory(nameCategory));
-        return "restaurant/menuPage";
+        model.addAttribute("newDish", new Dish(nameCategory));
+        model.addAttribute("dishIndex", dao.getListDishFromCategory(nameCategory));
+        return "restaurant/generalMenuPage";
+    }
+
+    @GetMapping("/typeMenu/TwoType/category/{nameCategory}")
+    public String showBarCardByCategory(@PathVariable("nameCategory") String nameCategory, Model model){
+        model.addAttribute("newBarCard", new BarCard(nameCategory));
+        model.addAttribute("barCardIndex", dao.getBarCardFromCategory(nameCategory));
+        return "restaurant/barCardPage";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("restaurant") Restaurant restaurant){
-        dao.save(restaurant);
-        return "redirect:/category";
+    public String create(@ModelAttribute("restaurant") Category category){
+        dao.insertCategory(category);
+        return "redirect:/";
     }
-    @PostMapping("/category/{nameCategory}")
-    public String createMenu(@ModelAttribute("menu") Menu menu,
-                            @ModelAttribute("dish") DishInfo dish){
-        dao.save(menu, dish);
-        return "redirect:/category/{nameCategory}";
+    @PostMapping("/typeMenu/OneType/category/{nameCategory}")
+    public String createMenu(@ModelAttribute("dish") Dish dish){
+        dao.insertDish(dish);
+        return "redirect:/typeMenu/OneType/category/{nameCategory}";
     }
+
+    @PostMapping("/typeMenu/TwoType/category/{nameCategory}")
+    public String createDrink(@ModelAttribute("drink") BarCard drink){
+        dao.insertDrink(drink);
+        return "redirect:/typeMenu/TwoType/category/{nameCategory}";
+    }
+
     @DeleteMapping("/category/{nameCategory}")
     public String deleteDish(@PathVariable("nameCategory") String name){
-        dao.deleteMenu(name);
+        dao.deleteDish(name);
         return "redirect:/menu";
     }
-    @DeleteMapping("/category")
+
+    @DeleteMapping("/{nameDrink}")
+    public String deleteDrink(@PathVariable("nameDrink") String name){
+        dao.deleteDrink(name);
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/typeMenu")
     public String deleteCategory(@RequestParam(required=false) String nameCategoryDelete){
         dao.deleteCategory(nameCategoryDelete);
-        return "redirect:/category";
+        return "redirect:/";
     }
 
     @PostMapping("/search")
@@ -73,19 +119,33 @@ public class RestaurantController {
         return "/restaurant/index";
     }
 
-    @GetMapping("/menu/show/{nameMenu}")
+    @GetMapping("/menu/showDish/{nameMenu}")
     public String showDish(@PathVariable("nameMenu") String nameMenu,
                                Model model){
-        model.addAttribute("editMenu", dao.showMenu(nameMenu));
-        model.addAttribute("showDish", dao.getDishInfoFromMenu(nameMenu));
-        return "restaurant/show";
+        //model.addAttribute("editMenu", dao.showMenu(nameMenu));
+        model.addAttribute("dishIndex", dao.getDishInfoFromMenu(nameMenu));
+        return "/restaurant/showDish";
     }
 
-    @PatchMapping("/{nameMenu}")
-    public String update(@PathVariable("nameMenu") String name,
-                         @ModelAttribute("edit") DishInfo dish){
-        dao.update(name, dish);
-        return "redirect:/menu/show/{nameMenu}";
+    @GetMapping("/showDrink/{nameDrink}")
+    public String showDrink(@PathVariable("nameDrink") String nameDrink,
+                            Model model){
+        model.addAttribute("barCardIndex", dao.getDrinkInfoFromBarCard(nameDrink));
+        return "/restaurant/showDrink";
+    }
+
+    @PatchMapping("/dish/{nameMenu}")
+    public String updateDish(@PathVariable("nameMenu") String name,
+                         @ModelAttribute("edit") Dish dish){
+        dao.updateDish(name, dish);
+        return "redirect:/menu/showDish/{nameMenu}";
+    }
+
+    @PatchMapping("/drink/{nameDrink}")
+    public String updateDrink(@PathVariable("nameDrink") String nameDrink,
+                              @ModelAttribute("edit") BarCard drink){
+        dao.updateDrink(nameDrink, drink);
+        return "redirect:/showDrink/{nameDrink}";
     }
 
 }

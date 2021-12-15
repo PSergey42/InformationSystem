@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+</head>
+<body>
+
+<table border="1" style="width:300px">
+    <tr>
+        <td>Category:</td>
+    </tr>
+    <tr th:each="category : ${type}">
+        <td> <a th:href = "@{/typeMenu/OneType/category/{nameCategory}(nameCategory=${category.getNameCategory()})}"
+                th:text="${category.getNameCategory()}"></a>
+        </td>
+    </tr>
+</table>
+<br/>
+<form th:method="POST" th:action="@{/}" th:object="${newCategory}">
+    <label for="name">Enter name category</label>
+    <input type="text" th:field="*{nameCategory}" id="name"/>
+    <br/>
+    <input type="submit" value="Create" />
+</form>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/typeMenu}" >
+    <label for="nameCategory">Enter name category</label>
+    <input type="text" name="nameCategoryDelete" id="nameCategory"/>
+    <br/>
+    <input type="submit" value="Delete" />
+</form>
+</body>
+</html>

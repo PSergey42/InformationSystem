@@ -6,28 +6,23 @@ import java.util.List;
 public class BarCard {
 
     String nameDrink;
-    String categoryDrink;
+    String nameCategory;
     double fortressDrink;
     double sizeDrink;
     double priceDrink;
-    List<DishInfo> dishInfoList;
 
-    public BarCard(String nameDrink, String categoryDrink, double fortressDrink, double sizeDrink, double priceDrink) {
+    public BarCard(String nameDrink, String nameCategory, double fortressDrink, double sizeDrink, double priceDrink) {
         this.nameDrink = nameDrink;
-        this.categoryDrink = categoryDrink;
+        this.nameCategory = nameCategory;
         this.fortressDrink = fortressDrink;
         this.sizeDrink = sizeDrink;
         this.priceDrink = priceDrink;
-        this.dishInfoList = new ArrayList<>();
     }
 
-    public BarCard() {
-        this.dishInfoList = new ArrayList<>();
-    }
+    public BarCard(){}
 
-    public BarCard(String categoryDrink){
-        this.categoryDrink = categoryDrink;
-        this.dishInfoList = new ArrayList<>();
+    public BarCard(String nameCategory){
+        this.nameCategory = nameCategory;
     }
 
     public String getNameDrink() {
@@ -38,12 +33,12 @@ public class BarCard {
         this.nameDrink = nameDrink;
     }
 
-    public String getCategoryDrink() {
-        return categoryDrink;
+    public String getNameCategory() {
+        return nameCategory;
     }
 
-    public void setCategoryDrink(String categoryDrink) {
-        this.categoryDrink = categoryDrink;
+    public void setNameCategory(String nameCategory) {
+        this.nameCategory = nameCategory;
     }
 
     public double getFortressDrink() {
@@ -68,13 +63,5 @@ public class BarCard {
 
     public void setPriceDrink(double priceDrink) {
         this.priceDrink = priceDrink;
-    }
-
-    public List<DishInfo> getDishInfos(){
-        return dishInfoList;
-    }
-
-    public void addDrinkInfoByMenu(DishInfo dish){
-        dishInfoList.add(dish);
     }
 }

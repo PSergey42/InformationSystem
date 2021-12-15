@@ -1,141 +1,223 @@
 package spring.infoSystem.dao;
 
 import org.springframework.stereotype.Component;
-import spring.infoSystem.model.DishInfo;
-import spring.infoSystem.model.Menu;
-import spring.infoSystem.model.Restaurant;
+import spring.infoSystem.model.BarCard;
+import spring.infoSystem.model.Category;
+import spring.infoSystem.model.Dish;
+import spring.infoSystem.model.TypeMenu;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Component
 public class RestaurantDAO {
 
-    private List<Restaurant> categories;
+    private List<Category> categories;
+    private List<TypeMenu> typeMenuList;
 
     {
 
         categories = new ArrayList<>();
+        typeMenuList = new ArrayList<>();
 
-        Menu menu12 = new Menu("Mushroom soup", "Soups", 12.5);
-        Menu menu13 = new Menu("Cream-Soup", "Soups", 17.0);
+        Dish dish11 = new Dish("Mushroom soup","Soups","some consist", 273.2, 350.3, 12.5);
+        Dish dish12 = new Dish("Cream-Soup","Soups","some consist", 124, 312, 17.0);
 
-        Menu menu22 = new Menu("Mashed potatoes", "Hot Appetizers", 11.9);
-        Menu menu23 = new Menu("Fried cheese", "Hot Appetizers", 23.2);
+        Dish dish21 = new Dish("Mashed potatoes", "Hot Appetizers","some consist", 256, 55, 11.9);
+        Dish dish22 = new Dish("Fried cheese", "Hot Appetizers","some consist", 346, 124, 23.2);
 
-        Menu menu32 = new Menu("SHRIMPS IN TOM-YAM SAUCE", "Snacks", 25.5);
-        Menu menu33 = new Menu("Rolls Tinatika", "Snacks", 19.2);
+        Dish dish31 = new Dish("SHRIMPS IN TOM-YAM SAUCE", "Snacks","some consist", 1202, 832, 25.5);
+        Dish dish32 = new Dish("Rolls Tinatika", "Snacks","some consist", 993, 323, 25.5);
 
-        DishInfo dishInfo11 = new DishInfo("some consist", 273.2, 350.3);
-        DishInfo dishInfo12 = new DishInfo("some consist", 124, 312);
-        DishInfo dishInfo21 = new DishInfo("some consist", 256, 55);
-        DishInfo dishInfo22 = new DishInfo("some consist", 346, 124);
-        DishInfo dishInfo31 = new DishInfo("some consist", 1202, 832);
-        DishInfo dishInfo32 = new DishInfo("some consist", 993, 323);
+        BarCard barCard1 = new BarCard("Americano", "Coffee", 0, 0.25, 0.5);
+        BarCard barCard2 = new BarCard("Late", "Coffee", 0, 0.25, 0.5);
+        BarCard barCard3 = new BarCard("Corona Extra", "Beer", 4.5, 0.5, 1);
 
-        menu12.addDishInfoByMenu(dishInfo11);
-        menu13.addDishInfoByMenu(dishInfo12);
-        menu22.addDishInfoByMenu(dishInfo21);
-        menu23.addDishInfoByMenu(dishInfo22);
-        menu32.addDishInfoByMenu(dishInfo31);
-        menu33.addDishInfoByMenu(dishInfo32);
+        Category category1 = new Category("GeneralMenu","Soups");
+        Category category2 = new Category("GeneralMenu","Hot Appetizers");
+        Category category3 = new Category("GeneralMenu","Snacks");
+        Category category4 = new Category("BarCard", "Coffee");
+        Category category5 = new Category("BarCard", "Beer");
 
-        Restaurant category1 = new Restaurant("Soups");
-        Restaurant category2 = new Restaurant("Hot Appetizers");
-        Restaurant category3 = new Restaurant("Snacks");
+        TypeMenu typeMenu1 = new TypeMenu("GeneralMenu");
+        TypeMenu typeMenu2 = new TypeMenu("BarCard");
 
-        category1.addMenuToCategory(menu12);
-        category1.addMenuToCategory(menu13);
+        category1.addDishToCategory(dish11);
+        category1.addDishToCategory(dish12);
 
-        category2.addMenuToCategory(menu22);
-        category2.addMenuToCategory(menu23);
+        category2.addDishToCategory(dish21);
+        category2.addDishToCategory(dish22);
 
-        category3.addMenuToCategory(menu32);
-        category3.addMenuToCategory(menu33);
+        category3.addDishToCategory(dish31);
+        category3.addDishToCategory(dish32);
 
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
+        category4.addDrinkToCategory(barCard1);
+        category4.addDrinkToCategory(barCard2);
 
+        category5.addDrinkToCategory(barCard3);
+
+        typeMenu1.addCategoryToTypeMenu(category1);
+        typeMenu1.addCategoryToTypeMenu(category2);
+        typeMenu1.addCategoryToTypeMenu(category3);
+
+        typeMenu2.addCategoryToTypeMenu(category4);
+        typeMenu2.addCategoryToTypeMenu(category5);
+
+        typeMenuList.add(typeMenu1);
+        typeMenuList.add(typeMenu2);
 
     }
 
-    public List<Restaurant> showListCategory(){
-        return categories;
+    public List<TypeMenu> showTypeMenu(){
+        return typeMenuList;
     }
 
-    public List<Menu> showListAllMenu(){
-        return categories.stream()
-                .flatMap(restaurant -> restaurant.getDishes().stream())
+    public List<Category> showListCategory(){
+        return typeMenuList.stream()
+                .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
                 .collect(Collectors.toList());
     }
 
-    public List<Menu> getListMenuFromCategory(String name){
-        return categories.stream()
-                .flatMap(restaurant -> restaurant.getDishes().stream())
-                .filter(menu -> Objects.equals(menu.getNameCategory(), name))
+    public List<Category> showListFromType(String name){
+        return typeMenuList.stream()
+                .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
+                .filter(category -> Objects.equals(category.getTypeMenu(), name))
                 .collect(Collectors.toList());
     }
 
-    public void save(Restaurant restaurant){
-        categories.add(restaurant);
+    public List<Dish> showListAllDish(){
+        return typeMenuList.stream().flatMap(typeMenu -> typeMenu.getCategoryList().stream())
+                .flatMap(category -> category.getDishList().stream())
+                .collect(Collectors.toList());
     }
 
-    public void save(Menu menu, DishInfo dish){
-        for (Restaurant restaurant: categories){
-            if(restaurant.getNameCategory().equals(menu.getNameCategory())) {
-                restaurant.addMenuToCategory(menu);
-                for (Menu menu1 : restaurant.getDishes()){
-                    menu1.addDishInfoByMenu(dish);
+    public List<Dish> getListDishFromCategory(String name){
+        return typeMenuList.stream()
+                .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
+                .flatMap(category -> category.getDishList().stream())
+                .filter(dish -> Objects.equals(dish.getNameCategory(), name))
+                .collect(Collectors.toList());
+    }
+
+    public List<BarCard> getBarCard(){
+        return typeMenuList.stream().flatMap(typeMenu -> typeMenu.getCategoryList().stream())
+                .flatMap(category -> category.getBarCards().stream())
+                .collect(Collectors.toList());
+    }
+
+    public List<BarCard> getBarCardFromCategory(String name){
+        return typeMenuList.stream()
+                .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
+                .flatMap(category -> category.getBarCards().stream())
+                .filter(barCard -> Objects.equals(barCard.getNameCategory(), name))
+                .collect(Collectors.toList());
+    }
+
+    public void insertCategory(Category category){
+        for (TypeMenu typeMenu : typeMenuList){
+            if (typeMenu.getTypeMenu().equals(category.getTypeMenu())){
+                typeMenu.addCategoryToTypeMenu(category);
+            }
+        }
+    }
+
+    public void insertDish(Dish dish){
+        for (TypeMenu typeMenu: typeMenuList){
+            for (Category category : typeMenu.getCategoryList()){
+                if (category.getNameCategory().equals(dish.getNameCategory())){
+                    category.addDishToCategory(dish);
                 }
             }
         }
     }
 
-    public void deleteMenu(String name){
-        for (Restaurant restaurant: categories){
-            restaurant.getDishes().removeIf(x -> Objects.equals(x.getNameDish(), name));
+    public void insertDrink(BarCard drink){
+        for (TypeMenu typeMenu: typeMenuList){
+            for (Category category : typeMenu.getCategoryList()){
+                if (category.getNameCategory().equals(drink.getNameCategory())){
+                    category.addDrinkToCategory(drink);
+                }
+            }
         }
+    }
 
+    public void deleteDish(String name){
+//        for (Category restaurant: categories){
+//            restaurant.getDishList().removeIf(x -> Objects.equals(x.getNameDish(), name));
+//        }
+        for (TypeMenu typeMenu : typeMenuList){
+            for (Category category : typeMenu.getCategoryList()){
+                category.getDishList().removeIf(x -> Objects.equals(x.getNameDish(), name));
+            }
+        }
+    }
+
+    public void deleteDrink(String name){
+        for (TypeMenu typeMenu : typeMenuList){
+            for (Category category : typeMenu.getCategoryList()){
+                category.getBarCards().removeIf(x -> Objects.equals(x.getNameDrink(), name));
+            }
+        }
     }
 
     public void deleteCategory(String nameCategory){
-        categories.removeIf(c -> c.getNameCategory().equals(nameCategory));
-    }
-
-    public List<Menu> searchDish(String search){
-        List<Menu> menus = new ArrayList<>();
-        for (Restaurant restaurant: categories){
-            restaurant.getDishes().stream().filter(x -> x.getNameDish().contains(search)).forEach(menus::add);
+        //categories.removeIf(c -> c.getNameCategory().equals(nameCategory));
+        for (TypeMenu typeMenu : typeMenuList){
+            typeMenu.getCategoryList().removeIf(c -> c.getNameCategory().equals(nameCategory));
         }
-        return menus;
     }
 
-    public Menu showMenu(String name){
-
-           return categories.stream().flatMap(restaurant -> restaurant.getDishes().stream())
-                    .filter(menu -> Objects.equals(menu.getNameDish(), name))
-                    .findAny().orElse(null);
-
+    public List<Dish> searchDish(String search){
+        List<Dish> dishes = new ArrayList<>();
+        for (TypeMenu typeMenu : typeMenuList){
+            for (Category category : typeMenu.getCategoryList()){
+                category.getDishList().stream().filter(x -> x.getNameDish().contains(search)).forEach(dishes::add);
+            }
+        }
+        return dishes;
     }
 
-    public DishInfo getDishInfoFromMenu(String name){
-        return categories.stream().flatMap(restaurant -> restaurant.getDishes().stream())
-                .filter(menu -> Objects.equals(menu.getNameDish(), name))
-                .flatMap(menu -> menu.getDishInfos().stream())
+    public List<BarCard> searchDrink(String search){
+        List<BarCard> drink = new ArrayList<>();
+        for (TypeMenu typeMenu : typeMenuList){
+            for (Category category : typeMenu.getCategoryList()){
+                category.getBarCards().stream().filter(x -> x.getNameDrink().contains(search)).forEach(drink::add);
+            }
+        }
+        return drink;
+    }
+
+    public Dish getDishInfoFromMenu(String name){
+        return typeMenuList.stream()
+                .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
+                .flatMap(category -> category.getDishList().stream())
+                .filter(dish -> Objects.equals(dish.getNameDish(), name))
                 .findAny().orElse(null);
     }
 
-    public void update(String name, DishInfo dish){
-        DishInfo dishInfo = getDishInfoFromMenu(name);
+    public BarCard getDrinkInfoFromBarCard(String name){
+        return typeMenuList.stream()
+                .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
+                .flatMap(category -> category.getBarCards().stream())
+                .filter(barCard -> Objects.equals(barCard.getNameDrink(), name))
+                .findAny().orElse(null);
+    }
+
+    public void updateDish(String name, Dish dish){
+        Dish dishInfo = getDishInfoFromMenu(name);
         dishInfo.setConsistDish(dish.getConsistDish());
         dishInfo.setCalories(dish.getCalories());
         dishInfo.setWeight(dish.getWeight());
+        dishInfo.setPrice(dish.getPrice());
+    }
+
+    public void updateDrink(String name, BarCard drink){
+        BarCard newDrink = getDrinkInfoFromBarCard(name);
+        newDrink.setFortressDrink(drink.getFortressDrink());
+        newDrink.setSizeDrink(drink.getSizeDrink());
+        newDrink.setPriceDrink(drink.getPriceDrink());
     }
 
 }

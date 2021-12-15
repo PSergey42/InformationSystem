@@ -11,8 +11,10 @@
 <div class="dws-menu">
     <ul class="dws-ul">
       <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-      <li class="dws-li"><a th:href="@{/category}"><i aria-hidden="true"></i>Category</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/{typeMenu}(typeMenu=${'GeneralMenu'})}"><i>General Menu</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${'BarCard'})}"><i>Bar Card</i></a></li>
       <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>Menu</a></li>
+        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>Drink</a></li>
     </ul>
   </div>
 <br/>
@@ -25,8 +27,8 @@
 <br/>
 <ul class="dotted">
     <li  th:each="menu : ${searchList}">
-        <a th:href = "@{/menu/show/{nameMenu}(nameMenu=${menu.getNameDish()})}"
-        th:text="${menu.getNameDish()}"></a></li>
+        <a th:href = "@{/menu/showDish/{dish}(dish=${menu.getNameDish()})}"
+           th:text="${menu.getNameDish()}"></a></li>
 </ul>
 
 

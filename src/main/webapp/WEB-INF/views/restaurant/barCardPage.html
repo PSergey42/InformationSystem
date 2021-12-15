@@ -10,11 +10,12 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <li class="dws-li"><a th:href="@{/category}"><i aria-hidden="true"></i>Category</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/{typeMenu}(typeMenu=${'GeneralMenu'})}"><i>General Menu</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${'BarCard'})}"><i>Bar Card</i></a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>Menu</a></li>
+        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>Drink</a></li>
     </ul>
 </div>
-<br/>
 
 <table border="1" style="width:300px">
     <tr>
@@ -22,26 +23,26 @@
         <td>Category:     </td>
         <td>Price:        </td>
     </tr>
-    <tr th:each="menu : ${menuIndex}">
+    <tr th:each="drink : ${barCardIndex}">
         <td>
-            <a th:href="@{/menu/show/{menu}(menu=${menu.getNameDish()})}" th:text="${menu.getNameDish()}"></a>
+            <a th:href="@{/showDrink/{drink}(drink=${drink.getNameDrink})}" th:text="${drink.getNameDrink}"></a>
         </td>
-        <td th:text="${menu.getNameCategory()}"></td>
-        <td th:text="${menu.getPrice() + '$'}"></td>
+        <td th:text="${drink.getNameCategory}"></td>
+        <td th:text="${drink.getPriceDrink() + '$'}"></td>
     </tr>
 </table>
 <br/>
-<form th:method="POST" th:action="@{/category/{nameCategory}(nameCategory=${newMenu.getNameCategory()})}" th:object="${newMenu}">
+<form th:method="POST" th:action="@{/typeMenu/TwoType/category/{nameCategory}(nameCategory=${newBarCard.getNameCategory()})}"
+      th:object="${newBarCard}">
     <label for="name">Enter name dish</label>
-    <input type="text" th:field="*{nameDish}" id="name"/>
+    <input type="text" th:field="*{nameDrink}" id="name"/>
     <br/>
     <label for="price">Enter price dish</label>
-    <input type="text" th:field="*{price}" id="price"/>
+    <input type="text" th:field="*{priceDrink}" id="price"/>
     <br/>
     <input type="submit" value="add" />
 </form>
 
 <br/>
-
 </body>
 </html>

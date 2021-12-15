@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+
+<table border="1" style="width:300px">
+    <tr>
+        <td>NameDishes:   </td>
+        <td>Fortress Drink:     </td>
+        <td>Size Drink:        </td>
+        <td>Category Drink: </td>
+        <td>Price: </td>
+    </tr>
+    <tr th:each="drink : ${barCardIndex}">
+        <td th:text="${drink.getNameDrink()}"></td>
+        <td th:text="${drink.getFortressDrink() + '%'}"></td>
+        <td th:text="${drink.getSizeDrink() + 'ml'}"></td>
+        <td th:text="${drink.getNameCategory()}"></td>
+        <td th:text="${drink.getPriceDrink + '$'}"></td>
+    </tr>
+</table>
+
+<form th:method="PATCH" th:action="@{/drink/{nameDrink}(nameDrink=${barCardIndex.getNameDrink()})}"
+      th:object="${barCardIndex}">
+    <label for="fortressDrink">Enter fortress drink: </label>
+    <input type="text" th:field="*{fortressDrink}" id="fortressDrink"/>
+
+    <label for="sizeDrink">Enter size drink: </label>
+    <input type="text" th:field="*{sizeDrink}" id="sizeDrink"/>
+
+    <label for="priceDrink">Enter price drink: </label>
+    <input type="text" th:field="*{priceDrink}" id="priceDrink"/>
+
+    <br/>
+    <input type="submit" value="Update!"/>
+</form>
+<form th:method="DELETE" th:action="@{/{nameCategory}(nameCategory=${barCardIndex.getNameDrink()})}" >
+    <br/>
+    <input type="submit" value="Delete" />
+</form>
+
+</body>
+</html>

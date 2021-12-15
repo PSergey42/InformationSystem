@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <title>Menu</title>
+</head>
+<body>
+<div class="dws-menu">
+    <ul class="dws-ul">
+        <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/{typeMenu}(typeMenu=${'GeneralMenu'})}"><i>General Menu</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${'BarCard'})}"><i>Bar Card</i></a></li>
+        <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>Menu</a></li>
+        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>Drink</a></li>
+    </ul>
+</div>
+<br/>
+
+<table border="1" style="width:300px">
+    <tr>
+        <td>NameDishes:   </td>
+        <td>Category:     </td>
+        <td>Price:        </td>
+    </tr>
+    <tr th:each="dish : ${dishIndex}">
+        <td>
+            <a th:href="@{/menu/showDish/{dish}(dish=${dish.getNameDish()})}" th:text="${dish.getNameDish()}"></a>
+        </td>
+        <td th:text="${dish.getNameCategory()}"></td>
+        <td th:text="${dish.getPrice() + '$'}"></td>
+    </tr>
+</table>
+<br/>
+<form th:method="POST" th:action="@{/typeMenu/OneType/category/{nameCategory}(nameCategory=${newDish.getNameCategory()})}" th:object="${newDish}">
+    <label for="name">Enter name dish</label>
+    <input type="text" th:field="*{nameDish}" id="name"/>
+    <br/>
+    <label for="price">Enter price dish</label>
+    <input type="text" th:field="*{price}" id="price"/>
+    <br/>
+    <input type="submit" value="add" />
+</form>
+
+<br/>
+
+</body>
+</html>
