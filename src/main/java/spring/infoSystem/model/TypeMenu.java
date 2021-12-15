@@ -13,7 +13,9 @@ public class TypeMenu {
         this.categoryList = new ArrayList<>();
     }
 
-    public TypeMenu(){}
+    public TypeMenu(){
+        this.categoryList = new ArrayList<>();
+    }
 
     public String getTypeMenu() {
         return typeMenu;

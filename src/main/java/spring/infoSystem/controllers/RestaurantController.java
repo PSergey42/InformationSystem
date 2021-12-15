@@ -35,7 +35,7 @@ public class RestaurantController {
 //    public String showCategoryMenu(Model model){
 //        model.addAttribute("newCategory", new Category());
 //        model.addAttribute("type", dao.showListCategory());
-//        return "restaurant/menuCategory";
+//        return "restaurant/generalMenu";
 //    }
 
     @GetMapping("/typeMenu/OneType/{typeMenu}")
@@ -78,10 +78,16 @@ public class RestaurantController {
         return "restaurant/barCardPage";
     }
 
-    @PostMapping()
-    public String create(@ModelAttribute("restaurant") Category category){
+    @PostMapping("/typeMenu/OneType/{typeMenu}")
+    public String createDish(@ModelAttribute("dish") Category category){
         dao.insertCategory(category);
-        return "redirect:/";
+        return "redirect:/typeMenu/OneType/{typeMenu}";
+    }
+
+    @PostMapping("/typeMenu/TwoType/{typeMenu}")
+    public String createDrink(@ModelAttribute("drink") Category category){
+        dao.insertCategory(category);
+        return "redirect:/typeMenu/TwoType/{typeMenu}";
     }
     @PostMapping("/typeMenu/OneType/category/{nameCategory}")
     public String createMenu(@ModelAttribute("dish") Dish dish){
@@ -104,7 +110,7 @@ public class RestaurantController {
     @DeleteMapping("/{nameDrink}")
     public String deleteDrink(@PathVariable("nameDrink") String name){
         dao.deleteDrink(name);
-        return "redirect:/";
+        return "redirect:/drink";
     }
 
     @DeleteMapping("/typeMenu")
