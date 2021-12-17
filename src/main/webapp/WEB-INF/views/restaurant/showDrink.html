@@ -2,27 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Show</title>
 </head>
 <body>
+<div class="dws-menu">
+    <ul class="dws-ul">
+        <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i>Menu</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i>Bar Card</i></a></li>
+        <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
+        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
+    </ul>
+</div>
+<br/>
 
-<table border="1" style="width:300px">
-    <tr>
-        <td>NameDishes:   </td>
-        <td>Fortress Drink:     </td>
-        <td>Size Drink:        </td>
-        <td>Category Drink: </td>
-        <td>Price: </td>
-    </tr>
-    <tr th:each="drink : ${barCardIndex}">
-        <td th:text="${drink.getNameDrink()}"></td>
-        <td th:text="${drink.getFortressDrink() + '%'}"></td>
-        <td th:text="${drink.getSizeDrink() + 'ml'}"></td>
-        <td th:text="${drink.getNameCategory()}"></td>
-        <td th:text="${drink.getPriceDrink + '$'}"></td>
-    </tr>
-</table>
-
+<ul class="dish">
+    <li><span>NameDrink</span><span th:text="${barCardIndex.getNameDrink()}"></span></li>
+    <li><span>Fortress Drink</span><span th:text="${barCardIndex.getFortressDrink() + '%'}"></span></li>
+    <li><span>Size Drink</span><span th:text="${barCardIndex.getSizeDrink() + 'ml'}"></span></li>
+    <li><span>Category Drink</span><span th:text="${barCardIndex.getNameCategory()}"></span></li>
+    <li><span>Price</span><span th:text="${barCardIndex.getPriceDrink + '$'}"></span></li>
+</ul>
+<br/>
+<div class="form2">
 <form th:method="PATCH" th:action="@{/drink/{nameDrink}(nameDrink=${barCardIndex.getNameDrink()})}"
       th:object="${barCardIndex}">
     <label for="fortressDrink">Enter fortress drink: </label>
@@ -41,6 +45,6 @@
     <br/>
     <input type="submit" value="Delete" />
 </form>
-
+</div>
 </body>
 </html>

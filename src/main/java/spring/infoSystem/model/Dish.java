@@ -1,6 +1,8 @@
 package spring.infoSystem.model;
 
-public class Dish {
+import java.io.Serializable;
+
+public class Dish  implements CheckIn {
 
     String nameDish;
     String nameCategory;

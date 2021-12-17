@@ -1,11 +1,9 @@
 package spring.infoSystem.dao;
 
 import org.springframework.stereotype.Component;
-import spring.infoSystem.model.BarCard;
-import spring.infoSystem.model.Category;
-import spring.infoSystem.model.Dish;
-import spring.infoSystem.model.TypeMenu;
+import spring.infoSystem.model.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,12 +12,9 @@ import java.util.stream.Collectors;
 @Component
 public class RestaurantDAO {
 
-    private List<Category> categories;
     private List<TypeMenu> typeMenuList;
 
     {
-
-        categories = new ArrayList<>();
         typeMenuList = new ArrayList<>();
 
         Dish dish11 = new Dish("Mushroom soup","Soups","some consist", 273.2, 350.3, 12.5);
@@ -31,17 +26,17 @@ public class RestaurantDAO {
         Dish dish31 = new Dish("SHRIMPS IN TOM-YAM SAUCE", "Snacks","some consist", 1202, 832, 25.5);
         Dish dish32 = new Dish("Rolls Tinatika", "Snacks","some consist", 993, 323, 25.5);
 
-        BarCard barCard1 = new BarCard("Americano", "Coffee", 0, 0.25, 0.5);
-        BarCard barCard2 = new BarCard("Late", "Coffee", 0, 0.25, 0.5);
-        BarCard barCard3 = new BarCard("Corona Extra", "Beer", 4.5, 0.5, 1);
+        Drink barCard1 = new Drink("Americano", "Coffee", 0, 0.25, 0.5);
+        Drink barCard2 = new Drink("Late", "Coffee", 0, 0.25, 0.5);
+        Drink barCard3 = new Drink("Corona Extra", "Beer", 4.5, 0.5, 1);
 
-        Category category1 = new Category("GeneralMenu","Soups");
-        Category category2 = new Category("GeneralMenu","Hot Appetizers");
-        Category category3 = new Category("GeneralMenu","Snacks");
+        Category category1 = new Category("Menu","Soups");
+        Category category2 = new Category("Menu","Hot Appetizers");
+        Category category3 = new Category("Menu","Snacks");
         Category category4 = new Category("BarCard", "Coffee");
         Category category5 = new Category("BarCard", "Beer");
 
-        TypeMenu typeMenu1 = new TypeMenu("GeneralMenu");
+        TypeMenu typeMenu1 = new TypeMenu("Menu");
         TypeMenu typeMenu2 = new TypeMenu("BarCard");
 
         category1.addDishToCategory(dish11);
@@ -101,13 +96,13 @@ public class RestaurantDAO {
                 .collect(Collectors.toList());
     }
 
-    public List<BarCard> getBarCard(){
+    public List<Drink> getBarCard(){
         return typeMenuList.stream().flatMap(typeMenu -> typeMenu.getCategoryList().stream())
                 .flatMap(category -> category.getBarCards().stream())
                 .collect(Collectors.toList());
     }
 
-    public List<BarCard> getBarCardFromCategory(String name){
+    public List<Drink> getBarCardFromCategory(String name){
         return typeMenuList.stream()
                 .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
                 .flatMap(category -> category.getBarCards().stream())
@@ -133,7 +128,7 @@ public class RestaurantDAO {
         }
     }
 
-    public void insertDrink(BarCard drink){
+    public void insertDrink(Drink drink){
         for (TypeMenu typeMenu: typeMenuList){
             for (Category category : typeMenu.getCategoryList()){
                 if (category.getNameCategory().equals(drink.getNameCategory())){
@@ -169,25 +164,7 @@ public class RestaurantDAO {
         }
     }
 
-    public List<Dish> searchDish(String search){
-        List<Dish> dishes = new ArrayList<>();
-        for (TypeMenu typeMenu : typeMenuList){
-            for (Category category : typeMenu.getCategoryList()){
-                category.getDishList().stream().filter(x -> x.getNameDish().contains(search)).forEach(dishes::add);
-            }
-        }
-        return dishes;
-    }
 
-    public List<BarCard> searchDrink(String search){
-        List<BarCard> drink = new ArrayList<>();
-        for (TypeMenu typeMenu : typeMenuList){
-            for (Category category : typeMenu.getCategoryList()){
-                category.getBarCards().stream().filter(x -> x.getNameDrink().contains(search)).forEach(drink::add);
-            }
-        }
-        return drink;
-    }
 
     public Dish getDishInfoFromMenu(String name){
         return typeMenuList.stream()
@@ -197,7 +174,7 @@ public class RestaurantDAO {
                 .findAny().orElse(null);
     }
 
-    public BarCard getDrinkInfoFromBarCard(String name){
+    public Drink getDrinkInfoFromBarCard(String name){
         return typeMenuList.stream()
                 .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
                 .flatMap(category -> category.getBarCards().stream())
@@ -213,11 +190,40 @@ public class RestaurantDAO {
         dishInfo.setPrice(dish.getPrice());
     }
 
-    public void updateDrink(String name, BarCard drink){
-        BarCard newDrink = getDrinkInfoFromBarCard(name);
+    public void updateDrink(String name, Drink drink){
+        Drink newDrink = getDrinkInfoFromBarCard(name);
         newDrink.setFortressDrink(drink.getFortressDrink());
         newDrink.setSizeDrink(drink.getSizeDrink());
         newDrink.setPriceDrink(drink.getPriceDrink());
+    }
+
+    public List<CheckIn> searchAll(String search){
+        List<CheckIn> dishes = new ArrayList<>();
+        for (TypeMenu typeMenu : typeMenuList){
+            for (Category category : typeMenu.getCategoryList()){
+                category.getBarCards().stream().filter(x -> x.getNameDrink().contains(search) || x.getNameCategory().contains(search)).forEach(dishes::add);
+                category.getDishList().stream().filter(x -> x.getNameDish().contains(search) || x.getNameCategory().contains(search)).forEach(dishes::add);
+            }
+        }
+        return dishes;
+    }
+
+    public void saveData() throws IOException {
+        FileOutputStream file =  new FileOutputStream("data.txt");
+        ObjectOutputStream out = new ObjectOutputStream(file);
+        out.writeObject(typeMenuList);
+        out.close();
+
+    }
+    public void uploadData() throws IOException, ClassNotFoundException {
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.txt"));
+            typeMenuList = (List<TypeMenu>) in.readObject();
+            in.close();
+        }
+        catch(FileNotFoundException ex){
+
+        }
     }
 
 }

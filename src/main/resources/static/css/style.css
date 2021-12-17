@@ -1,3 +1,12 @@
+a:visited {
+    color: gray;
+}
+a:link{
+    color: gray;
+}
+table{
+    margin: auto;
+}
 body{
  background-image: url("/img/escheresque_ste.png");
  font-family: Verdana;
@@ -117,16 +126,7 @@ input::-webkit-input-placeholder {
 }
 
 
-.form{
-    text-align:center;
-    margin-left:auto;
-    margin-right:auto;
-    border-style:solid;
-    border-width: 5px;
-    width: 440px;
-    height: 120px;
-    border-color:#287EC7;
-}
+
 
 
 
@@ -157,6 +157,17 @@ input::-webkit-input-placeholder {
     bottom: -7px;
 }
 
+.form{
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+    border-style:solid;
+    border-width: 5px;
+    width: 440px;
+    height: 120px;
+    border-color:#287EC7;
+}
+
 .form2{
     text-align: center;
     margin-left:auto;
@@ -164,12 +175,23 @@ input::-webkit-input-placeholder {
     border-style:solid;
     border-width: 5px;
     width: 200px;
-    height: 200px;
+    height: 240px;
     border-color:#287EC7;
 }
 
-
-
+.form3{
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    border-style:solid;
+    border-width: 5px;
+    width: 200px;
+    height: 110px;
+    border-color:#287EC7;
+}
+.zg{
+    color: white;
+}
 
 
 

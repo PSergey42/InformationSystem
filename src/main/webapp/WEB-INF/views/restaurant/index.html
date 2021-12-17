@@ -10,14 +10,35 @@
 
 <div class="dws-menu">
     <ul class="dws-ul">
-      <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/OneType/{typeMenu}(typeMenu=${'GeneralMenu'})}"><i>General Menu</i></a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${'BarCard'})}"><i>Bar Card</i></a></li>
-      <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>Menu</a></li>
-        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>Drink</a></li>
+        <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i>Menu</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i>Bar Card</i></a></li>
+        <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
+        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
+        <li class="dws-li"><a th:href="@{/save}"><i aria-hidden="true"></i>Save</a></li>
+        <li class="dws-li"><a th:href="@{/upload}"><i aria-hidden="true"></i>Upload</a></li>
     </ul>
-  </div>
+</div>
 <br/>
 
+<div class="d6">
+    <form th:method="POST" th:action="@{/search}">
+        <input type="text" name="search" placeholder="Search..."/>
+        <button type="submit"></button>
+    </form>
+</div>
+
+<br/>
+<ul class="dotted">
+            <h1 class="zg" th:if="${searchDish.size}" >Dishes:</h1>
+    <li  th:each="dishes : ${searchDish}">
+        <a th:href = "@{/menu/showDish/{nameMenu}(nameMenu=${dishes.getNameDish()})}"
+           th:text="${dishes.getNameDish()}"></a></li>
+    <br>
+        <h1 class="zg" th:if="${searchDrink.size}" >Drink:</h1>
+    <li  th:each="drinks : ${searchDrink}">
+        <a th:href = "@{/showDrink/{nameDrink}(nameDrink=${drinks.getNameDrink()})}"
+           th:text="${drinks.getNameDrink()}"></a></li>
+</ul>
 </body>
 </html>

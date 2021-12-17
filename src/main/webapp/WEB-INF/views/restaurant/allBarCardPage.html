@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <title>Menu</title>
+    <title>Title</title>
 </head>
 <body>
 <div class="dws-menu">
@@ -32,18 +32,5 @@
         <td th:text="${drink.getPriceDrink() + '$'}"></td>
     </tr>
 </table>
-<br/>
-<div class="form3">
-<form th:method="POST" th:action="@{/typeMenu/TwoType/category/{nameCategory}(nameCategory=${newBarCard.getNameCategory()})}"
-      th:object="${newBarCard}">
-    <label for="name">Enter name dish</label>
-    <input type="text" th:field="*{nameDrink}" id="name"/>
-    <br/>
-    <label for="price">Enter price dish</label>
-    <input type="text" th:field="*{priceDrink}" id="price"/>
-    <br/>
-    <input type="submit" value="add" />
-</form>
-</div>
 </body>
 </html>

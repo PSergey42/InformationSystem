@@ -5,9 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.infoSystem.dao.RestaurantDAO;
-import spring.infoSystem.model.BarCard;
+import spring.infoSystem.model.CheckIn;
+import spring.infoSystem.model.Drink;
 import spring.infoSystem.model.Category;
 import spring.infoSystem.model.Dish;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 //@RequestMapping("/restaurant")
@@ -38,6 +43,7 @@ public class RestaurantController {
 //        return "restaurant/generalMenu";
 //    }
 
+
     @GetMapping("/typeMenu/OneType/{typeMenu}")
     public String showGeneralMenuFromType(@PathVariable("typeMenu") String typeMenu, Model model){
         model.addAttribute("newCategory", new Category(typeMenu));
@@ -55,13 +61,13 @@ public class RestaurantController {
     @GetMapping("/menu")
     public String showAllMenu(Model model){
         model.addAttribute("dishIndex", dao.showListAllDish());
-        return "restaurant/generalMenuPage";
+        return "restaurant/allMenuPage";
     }
 
     @GetMapping("/drink")
     public String showAllDrink(Model model){
         model.addAttribute("barCardIndex", dao.getBarCard());
-        return "restaurant/barCardPage";
+        return "restaurant/allBarCardPage";
     }
 
     @GetMapping("/typeMenu/OneType/category/{nameCategory}")
@@ -73,7 +79,7 @@ public class RestaurantController {
 
     @GetMapping("/typeMenu/TwoType/category/{nameCategory}")
     public String showBarCardByCategory(@PathVariable("nameCategory") String nameCategory, Model model){
-        model.addAttribute("newBarCard", new BarCard(nameCategory));
+        model.addAttribute("newBarCard", new Drink(nameCategory));
         model.addAttribute("barCardIndex", dao.getBarCardFromCategory(nameCategory));
         return "restaurant/barCardPage";
     }
@@ -96,7 +102,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/typeMenu/TwoType/category/{nameCategory}")
-    public String createDrink(@ModelAttribute("drink") BarCard drink){
+    public String createDrink(@ModelAttribute("drink") Drink drink){
         dao.insertDrink(drink);
         return "redirect:/typeMenu/TwoType/category/{nameCategory}";
     }
@@ -119,16 +125,18 @@ public class RestaurantController {
         return "redirect:/";
     }
 
-    @PostMapping("/menu")
-    public String searchDish(@RequestParam(required=false) String search, Model model){
-        model.addAttribute("searchListDish", dao.searchDish(search));
-        return "/restaurant/generalMenuPage";
-    }
-
-    @PostMapping("/drink")
-    public String searchDrink(@RequestParam(required=false) String search, Model model){
-        model.addAttribute("searchListDrink", dao.searchDrink(search));
-        return "/restaurant/barCardPage";
+    @PostMapping("/search")
+    public String searchAll(@RequestParam(required=false) String search, Model model){
+        List<Dish> dishes = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+        List<CheckIn> listAll = dao.searchAll(search);
+        for(int i = 0; i < listAll.size(); i++){
+            if(listAll.get(i) instanceof Dish) dishes.add((Dish)listAll.get(i));
+            if(listAll.get(i) instanceof Drink) drinks.add((Drink)listAll.get(i));
+        }
+        model.addAttribute("searchDish", dishes);
+        model.addAttribute("searchDrink", drinks);
+        return "/restaurant/index";
     }
 
     @GetMapping("/menu/showDish/{nameMenu}")
@@ -155,9 +163,20 @@ public class RestaurantController {
 
     @PatchMapping("/drink/{nameDrink}")
     public String updateDrink(@PathVariable("nameDrink") String nameDrink,
-                              @ModelAttribute("edit") BarCard drink){
+                              @ModelAttribute("edit") Drink drink){
         dao.updateDrink(nameDrink, drink);
         return "redirect:/showDrink/{nameDrink}";
     }
 
+    @GetMapping("/save")
+    public String saveData() throws IOException {
+        dao.saveData();
+        return "restaurant/index";
+    }
+
+    @GetMapping("/upload")
+    public String uploadData(Model model) throws IOException, ClassNotFoundException {
+        dao.uploadData();
+        return "restaurant/index";
+    }
 }

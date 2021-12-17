@@ -2,29 +2,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Show</title>
 </head>
 <body>
+<div class="dws-menu">
+    <ul class="dws-ul">
+        <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i>Menu</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i>Bar Card</i></a></li>
+        <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
+        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
+    </ul>
+</div>
+<br/>
 
-<table border="1" style="width:300px">
-    <tr>
-        <td>NameDishes:   </td>
-        <td>Consist:     </td>
-        <td>Calories:        </td>
-        <td>Weight:</td>
-        <td>Category: </td>
-        <td>Price: </td>
-    </tr>
-    <tr th:each="dish : ${dishIndex}">
-        <td th:text="${dish.getNameDish()}"></td>
-        <td th:text="${dish.getConsistDish()}"></td>
-        <td th:text="${dish.getCalories()}"></td>
-        <td th:text="${dish.getWeight()}"></td>
-        <td th:text="${dish.getNameCategory()}"></td>
-        <td th:text="${dish.getPrice()} + '$'"></td>
-    </tr>
-</table>
+<ul class="dish">
+    <li><span>NameDishes</span><span th:text="${dishIndex.getNameDish()}"></span></li>
+    <li><span>Consist</span><span th:text="${dishIndex.getConsistDish()}"></span></li>
+    <li><span>Calories</span><span th:text="${dishIndex.getCalories()}"></span></li>
+    <li><span>Weight</span><span th:text="${dishIndex.getWeight()}"></span></li>
+    <li><span>Category</span><span th:text="${dishIndex.getNameCategory()}"></span></li>
+    <li><span>Price</span><span th:text="${dishIndex.getPrice() + '$'}"></span></li>
+</ul>
+<br/>
 
+<div class="form2">
 <form th:method="PATCH" th:action="@{/dish/{nameMenu}(nameMenu=${dishIndex.getNameDish()})}"
       th:object="${dishIndex}">
     <label for="consist">Enter consist: </label>
@@ -46,6 +50,6 @@
     <br/>
     <input type="submit" value="Delete" />
 </form>
-
+</div>
 </body>
 </html>

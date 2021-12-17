@@ -10,26 +10,13 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/OneType/{typeMenu}(typeMenu=${'GeneralMenu'})}"><i>General Menu</i></a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${'BarCard'})}"><i>Bar Card</i></a></li>
-        <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>Menu</a></li>
-        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>Drink</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i>Menu</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i>Bar Card</i></a></li>
+        <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
+        <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
     </ul>
 </div>
 <br/>
-
-<div class="d6">
-    <form th:method="POST" th:action="@{/menu}">
-        <input type="text" name="search" placeholder="Search..."/>
-        <button type="submit"></button>
-    </form>
-</div>
-<br/>
-<ul class="dotted">
-    <li  th:each="menu : ${searchListDish}">
-        <a th:href = "@{/menu/showDish/{dish}(dish=${menu.getNameDish()})}"
-           th:text="${menu.getNameDish()}"></a></li>
-</ul>
 
 <table border="1" style="width:300px">
     <tr>
@@ -46,6 +33,7 @@
     </tr>
 </table>
 <br/>
+<div class="form3">
 <form th:method="POST" th:action="@{/typeMenu/OneType/category/{nameCategory}(nameCategory=${newDish.getNameCategory()})}" th:object="${newDish}">
     <label for="name">Enter name dish</label>
     <input type="text" th:field="*{nameDish}" id="name"/>
@@ -56,7 +44,7 @@
     <input type="submit" value="add" />
 </form>
 
-<br/>
+</div>
 
 </body>
 </html>

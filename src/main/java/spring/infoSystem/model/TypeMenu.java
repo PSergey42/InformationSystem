@@ -1,9 +1,10 @@
 package spring.infoSystem.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeMenu {
+public class TypeMenu implements Serializable {
 
     private String typeMenu;
     private List<Category> categoryList;

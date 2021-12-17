@@ -3,7 +3,7 @@ package spring.infoSystem.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BarCard {
+public class Drink implements CheckIn{
 
     String nameDrink;
     String nameCategory;
@@ -11,7 +11,7 @@ public class BarCard {
     double sizeDrink;
     double priceDrink;
 
-    public BarCard(String nameDrink, String nameCategory, double fortressDrink, double sizeDrink, double priceDrink) {
+    public Drink(String nameDrink, String nameCategory, double fortressDrink, double sizeDrink, double priceDrink) {
         this.nameDrink = nameDrink;
         this.nameCategory = nameCategory;
         this.fortressDrink = fortressDrink;
@@ -19,9 +19,9 @@ public class BarCard {
         this.priceDrink = priceDrink;
     }
 
-    public BarCard(){}
+    public Drink(){}
 
-    public BarCard(String nameCategory){
+    public Drink(String nameCategory){
         this.nameCategory = nameCategory;
     }
 

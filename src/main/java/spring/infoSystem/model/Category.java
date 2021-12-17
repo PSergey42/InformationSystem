@@ -1,16 +1,16 @@
 package spring.infoSystem.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
-public class Category {
+public class Category implements Serializable {
 
     private String typeMenu;
     private String nameCategory;
-    private List<BarCard> barCards;
+    private List<Drink> barCards;
     private List<Dish> dishList;
 
     public Category() {
@@ -47,7 +47,7 @@ public class Category {
         this.typeMenu = typeMenu;
     }
 
-    public List<BarCard> getBarCards(){
+    public List<Drink> getBarCards(){
         return barCards;
     }
 
@@ -59,7 +59,7 @@ public class Category {
         dishList.add(dish);
     }
 
-    public void addDrinkToCategory(BarCard drink){
+    public void addDrinkToCategory(Drink drink){
         barCards.add(drink);
     }
 
