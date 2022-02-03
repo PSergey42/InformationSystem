@@ -1,6 +1,7 @@
 package spring.infoSystem.model;
 
-
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 public class Category implements Serializable {
 
     private String typeMenu;
+    @NotEmpty(message = "Name should not be empty")
     private String nameCategory;
     private List<Drink> barCards;
     private List<Dish> dishList;

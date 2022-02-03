@@ -139,9 +139,6 @@ public class RestaurantDAO {
     }
 
     public void deleteDish(String name){
-//        for (Category restaurant: categories){
-//            restaurant.getDishList().removeIf(x -> Objects.equals(x.getNameDish(), name));
-//        }
         for (TypeMenu typeMenu : typeMenuList){
             for (Category category : typeMenu.getCategoryList()){
                 category.getDishList().removeIf(x -> Objects.equals(x.getNameDish(), name));
@@ -201,8 +198,10 @@ public class RestaurantDAO {
         List<CheckIn> dishes = new ArrayList<>();
         for (TypeMenu typeMenu : typeMenuList){
             for (Category category : typeMenu.getCategoryList()){
-                category.getBarCards().stream().filter(x -> x.getNameDrink().contains(search) || x.getNameCategory().contains(search)).forEach(dishes::add);
-                category.getDishList().stream().filter(x -> x.getNameDish().contains(search) || x.getNameCategory().contains(search)).forEach(dishes::add);
+                category.getBarCards().stream().filter(x -> x.getNameDrink().toUpperCase().trim().contains(search.toUpperCase().trim()) ||
+                        x.getNameCategory().contains(search)).forEach(dishes::add);
+                category.getDishList().stream().filter(x -> x.getNameDish().toUpperCase().trim().contains(search.toUpperCase().trim()) ||
+                        x.getNameCategory().contains(search)).forEach(dishes::add);
             }
         }
         return dishes;

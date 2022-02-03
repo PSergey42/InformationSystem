@@ -36,11 +36,17 @@
 <div class="form3">
 <form th:method="POST" th:action="@{/typeMenu/TwoType/category/{nameCategory}(nameCategory=${newBarCard.getNameCategory()})}"
       th:object="${newBarCard}">
-    <label for="name">Enter name dish</label>
-    <input type="text" th:field="*{nameDrink}" id="name"/>
+    <input type="text" th:field="*{nameDrink}" id="name" placeholder="Enter name drink"/>
+    <div style="color:red" th:if="${#fields.hasErrors('nameDrink')}" th:errors = "*{nameDrink}">Error</div>
     <br/>
-    <label for="price">Enter price dish</label>
-    <input type="text" th:field="*{priceDrink}" id="price"/>
+    <input type="text" th:field="*{fortressDrink}" id="fortressDrink" placeholder="Enter fortress drink"/>
+    <div style="color:red" th:if="${#fields.hasErrors('fortressDrink')}" th:errors = "*{fortressDrink}">Error</div>
+    <br/>
+    <input type="text" th:field="*{sizeDrink}" id="sizeDrink" placeholder="Enter size drink"/>
+    <div style="color:red" th:if="${#fields.hasErrors('sizeDrink')}" th:errors = "*{sizeDrink}">Error</div>
+    <br/>
+    <input type="text" th:field="*{priceDrink}" id="price" placeholder="Enter price drink"/>
+    <div style="color:red" th:if="${#fields.hasErrors('priceDrink')}" th:errors = "*{priceDrink}">Error</div>
     <br/>
     <input type="submit" value="add" />
 </form>

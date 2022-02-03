@@ -35,11 +35,20 @@
 <br/>
 <div class="form3">
 <form th:method="POST" th:action="@{/typeMenu/OneType/category/{nameCategory}(nameCategory=${newDish.getNameCategory()})}" th:object="${newDish}">
-    <label for="name">Enter name dish</label>
-    <input type="text" th:field="*{nameDish}" id="name"/>
+    <input type="text" th:field="*{nameDish}" id="name" placeholder="Enter name dish"/>
+    <div style="color:red" th:if="${#fields.hasErrors('nameDish')}" th:errors = "*{nameDish}">Error</div>
     <br/>
-    <label for="price">Enter price dish</label>
-    <input type="text" th:field="*{price}" id="price"/>
+    <input type="text" th:field="*{consistDish}" id="consist" placeholder="Enter consist"/>
+    <div style="color:red" th:if="${#fields.hasErrors('consistDish')}" th:errors = "*{consistDish}">Error</div>
+    <br/>
+    <input type="text" th:field="*{calories}" id="calories" placeholder="Enter calories"/>
+    <div style="color:red" th:if="${#fields.hasErrors('calories')}" th:errors = "*{calories}">Error</div>
+    <br/>
+    <input type="text" th:field="*{weight}" id="weight" placeholder="Enter weight"/>
+    <div style="color:red" th:if="${#fields.hasErrors('weight')}" th:errors = "*{weight}">Error</div>
+    <br/>
+    <input type="text" th:field="*{price}" id="price" placeholder="Enter price dish"/>
+    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors = "*{price}">Error</div>
     <br/>
     <input type="submit" value="add" />
 </form>

@@ -25,17 +25,16 @@
 
 <div class="form">
 <form th:method="POST" th:action="@{/typeMenu/OneType/{typeMenu}(typeMenu=${newCategory.getTypeMenu()})}" th:object="${newCategory}">
-    <label for="name">Enter name category</label>
-    <input type="text" th:field="*{nameCategory}" id="name"/>
+    <input type="text" th:field="*{nameCategory}" id="name" placeholder="Enter name category"/>
+    <div style="color:red" th:if="${#fields.hasErrors('nameCategory')}" th:errors = "*{nameCategory}">Error</div>
     <br/>
     <input type="submit" value="Create" />
 </form>
 
 <br/>
 
-<form th:method="DELETE" th:action="@{/typeMenu}" >
-    <label for="nameCategory">Enter name category</label>
-    <input type="text" name="nameCategoryDelete" id="nameCategory"/>
+<form th:method="DELETE" th:action="@{/typeMenu/OneType}" >
+    <input type="text" name="nameCategoryDelete" id="nameCategory" placeholder="Enter name category"/>
     <br/>
     <input type="submit" value="Delete" />
 </form>

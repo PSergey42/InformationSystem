@@ -1,14 +1,21 @@
 package spring.infoSystem.model;
 
+
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-
-public class Dish  implements CheckIn {
-
+public class Dish implements CheckIn {
+    @NotEmpty(message = "Name should not be empty")
     String nameDish;
     String nameCategory;
+    @NotEmpty(message = "Name should not be empty")
     String consistDish;
+    @Min(value = 0, message = "Error")
     double calories;
+    @Min(value = 0, message = "Error")
     double weight;
+    @Min(value = 0, message = "Error")
     double price;
 
     public Dish(String nameDish, String nameCategory, String consistDish,

@@ -1,8 +1,10 @@
 package spring.infoSystem.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spring.infoSystem.dao.RestaurantDAO;
 import spring.infoSystem.model.CheckIn;
@@ -10,6 +12,8 @@ import spring.infoSystem.model.Drink;
 import spring.infoSystem.model.Category;
 import spring.infoSystem.model.Dish;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +30,18 @@ public class RestaurantController {
     }
 
     @GetMapping()
-    public String startMenu(){
+    public String startMenu(Model model){
+        List<Dish> dishes = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+        List<CheckIn> listAll = dao.searchAll("");
+        for(int i = 0; i < listAll.size(); i++){
+            if(listAll.get(i) instanceof Dish) dishes.add((Dish)listAll.get(i));
+            if(listAll.get(i) instanceof Drink) drinks.add((Drink)listAll.get(i));
+        }
+        model.addAttribute("searchDish", dishes);
+        model.addAttribute("searchDrink", drinks);
         return "restaurant/index";
     }
-
-//    @GetMapping("/typeMenu")
-//    public String showAllTypeMenu(Model model){
-//        model.addAttribute("typeMenu", dao.showTypeMenu());
-//        return "restaurant/typeMenu";
-//    }
-
-//    @GetMapping("/category")
-//    public String showCategoryMenu(Model model){
-//        model.addAttribute("newCategory", new Category());
-//        model.addAttribute("type", dao.showListCategory());
-//        return "restaurant/generalMenu";
-//    }
-
 
     @GetMapping("/typeMenu/OneType/{typeMenu}")
     public String showGeneralMenuFromType(@PathVariable("typeMenu") String typeMenu, Model model){
@@ -85,44 +84,68 @@ public class RestaurantController {
     }
 
     @PostMapping("/typeMenu/OneType/{typeMenu}")
-    public String createDish(@ModelAttribute("dish") Category category){
+    public String createCategoryOneType(@ModelAttribute("newCategory") @Valid Category category, BindingResult bindingResult, Model model, @PathVariable("typeMenu") String typeMenu){
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("type", dao.showListFromType(typeMenu));
+            return "restaurant/generalMenu";
+        }
         dao.insertCategory(category);
         return "redirect:/typeMenu/OneType/{typeMenu}";
     }
 
     @PostMapping("/typeMenu/TwoType/{typeMenu}")
-    public String createDrink(@ModelAttribute("drink") Category category){
+    public String createCategoryTwoType(@ModelAttribute("newCategory") @Valid Category category, BindingResult bindingResult, Model model, @PathVariable("typeMenu") String typeMenu){
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("barCard", dao.showListFromType(typeMenu));
+            return "restaurant/barCard";
+        }
         dao.insertCategory(category);
         return "redirect:/typeMenu/TwoType/{typeMenu}";
     }
     @PostMapping("/typeMenu/OneType/category/{nameCategory}")
-    public String createMenu(@ModelAttribute("dish") Dish dish){
+    public String createMenu(@ModelAttribute("newDish") @Valid Dish dish, BindingResult bindingResult, Model model, @PathVariable("nameCategory") String nameCategory){
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("dishIndex", dao.getListDishFromCategory(nameCategory));
+            return "restaurant/generalMenuPage";
+        }
         dao.insertDish(dish);
         return "redirect:/typeMenu/OneType/category/{nameCategory}";
     }
 
     @PostMapping("/typeMenu/TwoType/category/{nameCategory}")
-    public String createDrink(@ModelAttribute("drink") Drink drink){
+    public String createDrink(@ModelAttribute("newBarCard") @Valid Drink drink, BindingResult bindingResult, Model model, @PathVariable("nameCategory") String nameCategory){
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("barCardIndex", dao.getBarCardFromCategory(nameCategory));
+            return "restaurant/barCardPage";
+        }
         dao.insertDrink(drink);
         return "redirect:/typeMenu/TwoType/category/{nameCategory}";
     }
 
     @DeleteMapping("/category/{nameCategory}")
     public String deleteDish(@PathVariable("nameCategory") String name){
+        String x = dao.getDishInfoFromMenu(name).getNameCategory();
         dao.deleteDish(name);
-        return "redirect:/menu";
+        return "redirect:/typeMenu/OneType/category/" +x;
     }
 
     @DeleteMapping("/{nameDrink}")
     public String deleteDrink(@PathVariable("nameDrink") String name){
+        String x = dao.getDrinkInfoFromBarCard(name).getNameCategory();
         dao.deleteDrink(name);
-        return "redirect:/drink";
+        return "redirect:/typeMenu/TwoType/category/"+ x;
     }
 
-    @DeleteMapping("/typeMenu")
-    public String deleteCategory(@RequestParam(required=false) String nameCategoryDelete){
+    @DeleteMapping("/typeMenu/OneType")
+    public String deleteCategoryOneType(@RequestParam(required=false) String nameCategoryDelete){
         dao.deleteCategory(nameCategoryDelete);
-        return "redirect:/";
+        return "redirect:/typeMenu/OneType/Menu";
+    }
+
+    @DeleteMapping("/typeMenu/TwoType")
+    public String deleteCategoryTwoType(@RequestParam(required=false) String nameCategoryDelete){
+        dao.deleteCategory(nameCategoryDelete);
+        return "redirect:/typeMenu/TwoType/BarCard";
     }
 
     @PostMapping("/search")
@@ -139,11 +162,11 @@ public class RestaurantController {
         return "/restaurant/index";
     }
 
-    @GetMapping("/menu/showDish/{nameMenu}")
-    public String showDish(@PathVariable("nameMenu") String nameMenu,
+    @GetMapping("/menu/showDish/{nameDish}")
+    public String showDish(@PathVariable("nameDish") String nameDish,
                                Model model){
-        //model.addAttribute("editMenu", dao.showMenu(nameMenu));
-        model.addAttribute("dishIndex", dao.getDishInfoFromMenu(nameMenu));
+        model.addAttribute("dishIndex", dao.getDishInfoFromMenu(nameDish));
+        model.addAttribute("editDish", dao.getDishInfoFromMenu(nameDish));
         return "/restaurant/showDish";
     }
 
@@ -151,19 +174,33 @@ public class RestaurantController {
     public String showDrink(@PathVariable("nameDrink") String nameDrink,
                             Model model){
         model.addAttribute("barCardIndex", dao.getDrinkInfoFromBarCard(nameDrink));
+        model.addAttribute("newBarCard", dao.getDrinkInfoFromBarCard(nameDrink));
         return "/restaurant/showDrink";
     }
 
-    @PatchMapping("/dish/{nameMenu}")
-    public String updateDish(@PathVariable("nameMenu") String name,
-                         @ModelAttribute("edit") Dish dish){
-        dao.updateDish(name, dish);
-        return "redirect:/menu/showDish/{nameMenu}";
+    @PatchMapping("/dish/{nameDish}")
+    public String updateDish(@PathVariable("nameDish") String nameDish,
+                         @ModelAttribute("editDish") @Valid Dish dish, BindingResult bindingResult, Model model){
+        System.out.println("sss");
+        System.out.println(dish.getNameDish());
+        System.out.println(dish.getNameCategory());
+        System.out.println(dish.getPrice());
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("dishIndex", dao.getDishInfoFromMenu(nameDish));
+            return "restaurant/showDish";
+        }
+        System.out.println("sss");
+        dao.updateDish(nameDish, dish);
+        return "redirect:/menu/showDish/{nameDish}";
     }
 
     @PatchMapping("/drink/{nameDrink}")
     public String updateDrink(@PathVariable("nameDrink") String nameDrink,
-                              @ModelAttribute("edit") Drink drink){
+                              @ModelAttribute("newBarCard") @Valid Drink drink, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("barCardIndex", dao.getDrinkInfoFromBarCard(nameDrink));
+            return "restaurant/showDrink";
+        }
         dao.updateDrink(nameDrink, drink);
         return "redirect:/showDrink/{nameDrink}";
     }
