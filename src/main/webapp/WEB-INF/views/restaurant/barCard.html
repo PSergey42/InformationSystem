@@ -10,8 +10,8 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i>Menu</i></a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i>Bar Card</i></a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>
+        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
         <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
     </ul>
@@ -24,7 +24,7 @@
 <br/>
 
 <div class="form">
-<form th:method="POST" th:action="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${newCategory.getTypeMenu()})}" th:object="${newCategory}">
+<form th:method="POST" th:action="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${newCategory.getNameTypeMenu()})}" th:object="${newCategory}">
     <input type="text" th:field="*{nameCategory}" id="name" placeholder="Enter name category"/>
     <div style="color:red" th:if="${#fields.hasErrors('nameCategory')}" th:errors = "*{nameCategory}">Error</div>
     <br/>

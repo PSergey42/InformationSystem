@@ -1,7 +1,6 @@
 package spring.infoSystem.model;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class Category implements Serializable {
 
-    private String typeMenu;
+    private String nameTypeMenu;
     @NotEmpty(message = "Name should not be empty")
     private String nameCategory;
     private List<Drink> barCards;
@@ -21,14 +20,15 @@ public class Category implements Serializable {
     }
 
     public Category(String typeMenu, String nameCategory) {
-        this.typeMenu = typeMenu;
+        this.nameTypeMenu = typeMenu;
         this.nameCategory = nameCategory;
         this.barCards = new ArrayList<>();
         this.dishList = new ArrayList<>();
     }
 
+
     public Category(String typeMenu){
-        this.typeMenu = typeMenu;
+        this.nameTypeMenu = typeMenu;
         this.barCards = new ArrayList<>();
         this.dishList = new ArrayList<>();
     }
@@ -41,12 +41,12 @@ public class Category implements Serializable {
         this.nameCategory = nameCategory;
     }
 
-    public String getTypeMenu() {
-        return typeMenu;
+    public String getNameTypeMenu() {
+        return nameTypeMenu;
     }
 
-    public void setTypeMenu(String typeMenu) {
-        this.typeMenu = typeMenu;
+    public void setNameTypeMenu(String nameTypeMenu) {
+        this.nameTypeMenu = nameTypeMenu;
     }
 
     public List<Drink> getBarCards(){
@@ -55,6 +55,14 @@ public class Category implements Serializable {
 
     public List<Dish> getDishList(){
         return dishList;
+    }
+
+    public void setBarCards(List<Drink> barCards) {
+        this.barCards = barCards;
+    }
+
+    public void setDishList(List<Dish> dishList) {
+        this.dishList = dishList;
     }
 
     public void addDishToCategory(Dish dish){

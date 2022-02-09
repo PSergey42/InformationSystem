@@ -1,10 +1,27 @@
 package spring.infoSystem.dao;
 
+import com.sun.org.apache.xerces.internal.impl.xs.opti.DefaultDocument;
+import com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
+import spring.infoSystem.Parser.SaxMyParser;
 import spring.infoSystem.model.*;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -78,7 +95,7 @@ public class RestaurantDAO {
     public List<Category> showListFromType(String name){
         return typeMenuList.stream()
                 .flatMap(typeMenu -> typeMenu.getCategoryList().stream())
-                .filter(category -> Objects.equals(category.getTypeMenu(), name))
+                .filter(category -> Objects.equals(category.getNameTypeMenu(), name))
                 .collect(Collectors.toList());
     }
 
@@ -112,7 +129,7 @@ public class RestaurantDAO {
 
     public void insertCategory(Category category){
         for (TypeMenu typeMenu : typeMenuList){
-            if (typeMenu.getTypeMenu().equals(category.getTypeMenu())){
+            if (typeMenu.getNameTypeMenu().equals(category.getNameTypeMenu())){
                 typeMenu.addCategoryToTypeMenu(category);
             }
         }
@@ -207,22 +224,131 @@ public class RestaurantDAO {
         return dishes;
     }
 
-    public void saveData() throws IOException {
-        FileOutputStream file =  new FileOutputStream("data.txt");
+    public void saveData() throws IOException, ParserConfigurationException, TransformerException, XMLStreamException {
+        /*FileOutputStream file =  new FileOutputStream("data.txt");
         ObjectOutputStream out = new ObjectOutputStream(file);
         out.writeObject(typeMenuList);
-        out.close();
+        out.close();*/
+        XMLOutputFactory factory1 = XMLOutputFactory.newFactory();
+        XMLStreamWriter writer =  factory1.createXMLStreamWriter(new FileOutputStream("temp1.xml"));
+
+
+
+        writer.writeStartDocument();
+        writer.writeStartElement("typeMenuList");
+        writer.writeStartElement("typeMenu");
+        writer.writeStartElement("nameTypeMenu");
+        writer.writeCharacters("Menu");
+        writer.writeEndElement();
+
+        writer.writeStartElement("categoryList");
+        for(int i = 0; i < typeMenuList.get(0).getSizeCategory(); i++) {
+            writer.writeStartElement("element");
+
+            writer.writeStartElement("nameTypeMenu");
+            writer.writeCharacters("Menu");
+            writer.writeEndElement();
+            writer.writeStartElement("nameCategory");
+            writer.writeCharacters(typeMenuList.get(0).getCategoryList().get(i).getNameCategory());
+            writer.writeEndElement();
+
+            writer.writeStartElement("dishList");
+            for(int j = 0; j < typeMenuList.get(0).getCategoryList().get(i).getDishList().size(); j++) {
+                writer.writeStartElement("elementDish");
+
+                writer.writeStartElement("nameDish");
+                writer.writeCharacters(typeMenuList.get(0).getCategoryList().get(i).getDishList().get(j).getNameDish());
+                writer.writeEndElement();
+                writer.writeStartElement("nameCategory");
+                writer.writeCharacters(typeMenuList.get(0).getCategoryList().get(i).getDishList().get(j).getNameCategory());
+                writer.writeEndElement();
+                writer.writeStartElement("consistDish");
+                writer.writeCharacters(typeMenuList.get(0).getCategoryList().get(i).getDishList().get(j).getConsistDish());
+                writer.writeEndElement();
+                writer.writeStartElement("calories");
+                writer.writeCharacters(String.valueOf(typeMenuList.get(0).getCategoryList().get(i).getDishList().get(j).getCalories()));
+                writer.writeEndElement();
+                writer.writeStartElement("weight");
+                writer.writeCharacters(String.valueOf(typeMenuList.get(0).getCategoryList().get(i).getDishList().get(j).getWeight()));
+                writer.writeEndElement();
+                writer.writeStartElement("price");
+                writer.writeCharacters(String.valueOf(typeMenuList.get(0).getCategoryList().get(i).getDishList().get(j).getPrice()));
+                writer.writeEndElement();
+
+                writer.writeEndElement(); // </elementDish>
+            }
+            writer.writeEndElement(); // </dishList>
+
+            writer.writeEndElement(); // </element>
+        }
+        writer.writeEndElement(); // </categoryList>
+
+        writer.writeEndElement(); // </typeMenu>
+        writer.writeStartElement("typeMenuBar");
+
+        writer.writeStartElement("nameTypeMenu");
+        writer.writeCharacters("BarCard");
+        writer.writeEndElement();
+
+        writer.writeStartElement("categoryList");
+        for(int i = 0; i < typeMenuList.get(1).getSizeCategory(); i++) {
+            writer.writeStartElement("elementDrinkList");
+
+            writer.writeStartElement("nameTypeMenu");
+            writer.writeCharacters("BarCard");
+            writer.writeEndElement();
+            writer.writeStartElement("nameCategory");
+            writer.writeCharacters(typeMenuList.get(1).getCategoryList().get(i).getNameCategory());
+            writer.writeEndElement();
+
+            writer.writeStartElement("barCards");
+            for(int j = 0; j < typeMenuList.get(1).getCategoryList().get(i).getBarCards().size(); j++) {
+                writer.writeStartElement("elementDrink");
+
+                writer.writeStartElement("nameDrink");
+                writer.writeCharacters(typeMenuList.get(1).getCategoryList().get(i).getBarCards().get(j).getNameDrink());
+                writer.writeEndElement();
+                writer.writeStartElement("nameCategory");
+                writer.writeCharacters(typeMenuList.get(1).getCategoryList().get(i).getBarCards().get(j).getNameCategory());
+                writer.writeEndElement();
+                writer.writeStartElement("fortressDrink");
+                writer.writeCharacters(String.valueOf(typeMenuList.get(1).getCategoryList().get(i).getBarCards().get(j).getFortressDrink()));
+                writer.writeEndElement();
+                writer.writeStartElement("sizeDrink");
+                writer.writeCharacters(String.valueOf(typeMenuList.get(1).getCategoryList().get(i).getBarCards().get(j).getSizeDrink()));
+                writer.writeEndElement();
+                writer.writeStartElement("priceDrink");
+                writer.writeCharacters(String.valueOf(typeMenuList.get(1).getCategoryList().get(i).getBarCards().get(j).getPriceDrink()));
+                writer.writeEndElement();
+
+                writer.writeEndElement(); // </elementDrink>
+            }
+            writer.writeEndElement(); // </barCards>
+
+            writer.writeEndElement(); // </elementDrinkList>
+        }
+        writer.writeEndElement(); // </categoryList>
+
+        writer.writeEndElement();
+
+
+        writer.writeEndElement();
+        writer.writeEndDocument();
+        writer.flush();
+
 
     }
-    public void uploadData() throws IOException, ClassNotFoundException {
-        try {
+    public void uploadData() throws IOException, ClassNotFoundException, ParserConfigurationException, SAXException {
+        /*try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.txt"));
             typeMenuList = (List<TypeMenu>) in.readObject();
             in.close();
         }
         catch(FileNotFoundException ex){
 
-        }
+        }*/
+        SaxMyParser saxMyParser = new SaxMyParser();
+        typeMenuList = saxMyParser.getParseList();
     }
 
 }

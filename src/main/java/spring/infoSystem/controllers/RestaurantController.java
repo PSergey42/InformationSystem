@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.xml.sax.SAXException;
 import spring.infoSystem.dao.RestaurantDAO;
 import spring.infoSystem.model.CheckIn;
 import spring.infoSystem.model.Drink;
@@ -14,6 +15,9 @@ import spring.infoSystem.model.Dish;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -206,14 +210,14 @@ public class RestaurantController {
     }
 
     @GetMapping("/save")
-    public String saveData() throws IOException {
+    public String saveData() throws IOException, ParserConfigurationException, TransformerException, XMLStreamException {
         dao.saveData();
-        return "restaurant/index";
+        return "redirect:/";
     }
 
     @GetMapping("/upload")
-    public String uploadData(Model model) throws IOException, ClassNotFoundException {
+    public String uploadData(Model model) throws IOException, ClassNotFoundException, ParserConfigurationException, SAXException {
         dao.uploadData();
-        return "restaurant/index";
+        return "redirect:/";
     }
 }
