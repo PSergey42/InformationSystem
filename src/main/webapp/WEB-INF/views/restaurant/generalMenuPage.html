@@ -27,7 +27,7 @@
     </tr>
     <tr th:each="dish : ${dishFromCategory}">
         <td>
-            <a th:href="@{/menu/showDish/{dish}(dish=${dish.getNameDish()})}" th:text="${dish.getNameDish()}"></a>
+            <a th:href="@{/menuInfo/{nameDish}(nameDish=${dish.getNameDish()})}" th:text="${dish.getNameDish()}"></a>
         </td>
         <td th:text="${dish.getPrice() + '$'}"></td>
     </tr>

@@ -19,10 +19,25 @@
     </ul>
 </div>
 <br/>
-<div class="menu-links" th:each="category : ${category}">
-    <a th:href="@{/menu/{category_id}(category_id=${category.getId()})}"
-       class="menu-links__item "
-       th:text="${category.getNameCategory()}"></a>
+<div class="menu-links">
+    <table border="1" style="width:300px">
+        <tr>
+            <td>NameCategory:   </td>
+            <td>Delete:        </td>
+        </tr>
+        <tr th:each="category : ${category}">
+            <td>
+                <a th:href="@{/menu/{category_id}(category_id=${category.getId()})}"
+                   class="menu-links__item "
+                   th:text="${category.getNameCategory()}"></a>
+            </td>
+            <td>
+                <form th:method="DELETE" th:action="@{/categoryMenu/{nameCategory}(nameCategory=${category.getNameCategory()})}" >
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+        </tr>
+    </table>
 </div>
 <br/>
 
@@ -36,11 +51,11 @@
 
 <br/>
 
-<form th:method="DELETE" th:action="@{/category/Menu}" >
-    <input type="text" name="nameCategoryDelete" id="nameCategory" placeholder="Enter name category"/>
-    <br/>
-    <input type="submit" value="Delete" />
-</form>
+<!--<form th:method="DELETE" th:action="@{/category/Menu}" >-->
+<!--    <input type="text" name="nameCategoryDelete" id="nameCategory" placeholder="Enter name category"/>-->
+<!--    <br/>-->
+<!--    <input type="submit" value="Delete" />-->
+<!--</form>-->
 </div>
 </body>
 </html>

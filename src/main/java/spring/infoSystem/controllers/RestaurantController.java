@@ -41,8 +41,8 @@ public class RestaurantController {
         return "redirect:/category/Menu/{typeMenu_id}";
     }
 
-    @DeleteMapping("/category/Menu")
-    public String deleteCategoryMenu(@RequestParam(required=false) String nameCategoryMenu){
+    @DeleteMapping("/categoryMenu/{nameCategory}")
+    public String deleteCategoryMenu(@PathVariable("nameCategory") String nameCategoryMenu){
         dao_db.deleteCategory(nameCategoryMenu);
         return "redirect:/category/Menu/{typeMenu_id}";
     }
@@ -71,6 +71,25 @@ public class RestaurantController {
     public String addDish(@ModelAttribute("dish") Dish dish, @PathVariable("category_id") int category_id){
         dao_db.addDish(dish, category_id);
         return "redirect:/menu/{category_id}";
+    }
+
+    @GetMapping("/menuInfo/{nameDish}")
+    public String infoDish(@PathVariable("nameDish") String nameDish, Model model){
+        model.addAttribute("infoDish", dao_db.infoDish(nameDish));
+        return "restaurant/showDish";
+    }
+
+    @PatchMapping("/dish/{nameDish}")
+    public String updateDish(@PathVariable("nameDish") String nameDish,
+                             @ModelAttribute("editDish") Dish dish){
+        dao_db.updateDish(nameDish, dish);
+        return "redirect:/menuInfo/{nameDish}";
+    }
+
+    @DeleteMapping("/dishInfo/{nameDish}")
+    public String deleteDish(@PathVariable("nameDish") String nameDish){
+        dao_db.deleteDish(nameDish);
+        return "redirect:/menu";
     }
 
     //Drink controller

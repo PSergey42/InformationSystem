@@ -35,7 +35,7 @@ public class RestaurantDAO_DB {
     }
 
     public void deleteCategory(String nameCategory){
-        jdbcTemplate.update("DELETE FROM category WHERE (`nameCategory`=?)", nameCategory);
+        jdbcTemplate.update("DELETE FROM category WHERE nameCategory=?", nameCategory);
     }
 
     //Dish
@@ -52,6 +52,20 @@ public class RestaurantDAO_DB {
     public void addDish(Dish dish, int category_id){
         jdbcTemplate.update("INSERT INTO dish VALUES (?,?,?,?,?,?,?)", ++DISH_ID, dish.getNameDish(), dish.getConsistDish(),
                         dish.getCalories(), dish.getWeight(), dish.getPrice(), category_id);
+    }
+
+    public Dish infoDish(String nameDish){
+        return jdbcTemplate.query("SELECT * FROM dish WHERE nameDish=?", new Object[]{nameDish},
+                        new BeanPropertyRowMapper<>(Dish.class)).stream().findAny().orElse(null);
+    }
+
+    public void updateDish(String nameDish, Dish dish){
+        jdbcTemplate.update("UPDATE dish SET consistDish=?, calories=?, weight=?, price=? WHERE nameDish=?",
+                        dish.getConsistDish(), dish.getCalories(), dish.getWeight(), dish.getPrice(), nameDish);
+    }
+
+    public void deleteDish(String nameDish){
+        jdbcTemplate.update("DELETE FROM dish WHERE nameDish=?", nameDish);
     }
 
     //Drink
