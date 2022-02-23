@@ -38,6 +38,7 @@ public class RestaurantDAO_DB {
         jdbcTemplate.update("DELETE FROM category WHERE nameCategory=?", nameCategory);
     }
 
+
     //Dish
     public List<Dish> indexDish(){
         return jdbcTemplate.query("SELECT * FROM dish", new BeanPropertyRowMapper<>(Dish.class));

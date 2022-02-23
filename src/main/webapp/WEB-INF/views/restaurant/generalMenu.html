@@ -41,6 +41,7 @@
 </div>
 <br/>
 
+
 <div class="form">
 <form th:method="POST" th:action="@{/category/Menu/{typeMenu}(typeMenu=${newCategory.getTypeMenu_id()})}" th:object="${newCategory}">
     <input type="text" th:field="*{nameCategory}" id="name" placeholder="Enter name category"/>
