@@ -8,9 +8,11 @@ import java.util.List;
 
 public class Category implements Serializable {
 
-    private String nameTypeMenu;
+    private int id;
+//    private String nameTypeMenu;
     @NotEmpty(message = "Name should not be empty")
     private String nameCategory;
+    private int typeMenu_id;
     private List<Drink> barCards;
     private List<Dish> dishList;
 
@@ -19,18 +21,25 @@ public class Category implements Serializable {
         this.barCards = new ArrayList<>();
     }
 
-    public Category(String typeMenu, String nameCategory) {
-        this.nameTypeMenu = typeMenu;
+    public Category(String nameCategory) {
+        //this.nameTypeMenu = typeMenu;
         this.nameCategory = nameCategory;
         this.barCards = new ArrayList<>();
         this.dishList = new ArrayList<>();
     }
 
+    public Category(int id, String nameCategory, int typeMenu_id) {
+        this.id = id;
+        this.nameCategory = nameCategory;
+        this.typeMenu_id = typeMenu_id;
+    }
 
-    public Category(String typeMenu){
-        this.nameTypeMenu = typeMenu;
-        this.barCards = new ArrayList<>();
-        this.dishList = new ArrayList<>();
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNameCategory() {
@@ -41,36 +50,13 @@ public class Category implements Serializable {
         this.nameCategory = nameCategory;
     }
 
-    public String getNameTypeMenu() {
-        return nameTypeMenu;
+    public int getTypeMenu_id() {
+        return typeMenu_id;
     }
 
-    public void setNameTypeMenu(String nameTypeMenu) {
-        this.nameTypeMenu = nameTypeMenu;
+    public void setTypeMenu_id(int typeMenu_id) {
+        this.typeMenu_id = typeMenu_id;
     }
 
-    public List<Drink> getBarCards(){
-        return barCards;
-    }
-
-    public List<Dish> getDishList(){
-        return dishList;
-    }
-
-    public void setBarCards(List<Drink> barCards) {
-        this.barCards = barCards;
-    }
-
-    public void setDishList(List<Dish> dishList) {
-        this.dishList = dishList;
-    }
-
-    public void addDishToCategory(Dish dish){
-        dishList.add(dish);
-    }
-
-    public void addDrinkToCategory(Drink drink){
-        barCards.add(drink);
-    }
 
 }

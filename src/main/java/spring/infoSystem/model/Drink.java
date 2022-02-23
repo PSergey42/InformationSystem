@@ -9,19 +9,20 @@ import java.util.List;
 
 public class Drink implements CheckIn{
 
+    private int id;
     @NotEmpty(message = "Name should not be empty")
     String nameDrink;
-    String nameCategory;
+    //String nameCategory;
     @Min(value = 0, message = "Error")
     double fortressDrink;
     @Min(value = 0, message = "Error")
     double sizeDrink;
     @Min(value = 0, message = "Error")
     double priceDrink;
+    int category_id;
 
-    public Drink(String nameDrink, String nameCategory, double fortressDrink, double sizeDrink, double priceDrink) {
+    public Drink(String nameDrink, double fortressDrink, double sizeDrink, double priceDrink) {
         this.nameDrink = nameDrink;
-        this.nameCategory = nameCategory;
         this.fortressDrink = fortressDrink;
         this.sizeDrink = sizeDrink;
         this.priceDrink = priceDrink;
@@ -29,9 +30,6 @@ public class Drink implements CheckIn{
 
     public Drink(){}
 
-    public Drink(String nameCategory){
-        this.nameCategory = nameCategory;
-    }
 
     public String getNameDrink() {
         return nameDrink;
@@ -39,14 +37,6 @@ public class Drink implements CheckIn{
 
     public void setNameDrink(String nameDrink) {
         this.nameDrink = nameDrink;
-    }
-
-    public String getNameCategory() {
-        return nameCategory;
-    }
-
-    public void setNameCategory(String nameCategory) {
-        this.nameCategory = nameCategory;
     }
 
     public double getFortressDrink() {

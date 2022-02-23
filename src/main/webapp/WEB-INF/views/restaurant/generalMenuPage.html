@@ -10,8 +10,10 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>
+        <!--        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>-->
+        <li class="dws-li"><a th:href="@{/category/Menu/1}"><i aria-hidden="true"></i>Menu</a></li>
+        <!--        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>-->
+        <li class="dws-li"><a th:href="@{/category/BarCard/2}"><i aria-hidden="true"></i>Bar Card</a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
         <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
     </ul>
@@ -21,20 +23,18 @@
 <table border="1" style="width:300px">
     <tr>
         <td>NameDishes:   </td>
-        <td>Category:     </td>
         <td>Price:        </td>
     </tr>
-    <tr th:each="dish : ${dishIndex}">
+    <tr th:each="dish : ${dishFromCategory}">
         <td>
             <a th:href="@{/menu/showDish/{dish}(dish=${dish.getNameDish()})}" th:text="${dish.getNameDish()}"></a>
         </td>
-        <td th:text="${dish.getNameCategory()}"></td>
         <td th:text="${dish.getPrice() + '$'}"></td>
     </tr>
 </table>
 <br/>
 <div class="form3">
-<form th:method="POST" th:action="@{/typeMenu/OneType/category/{nameCategory}(nameCategory=${newDish.getNameCategory()})}" th:object="${newDish}">
+<form th:method="POST" th:action="@{/menu/{category_id}(category_id=${newDish.getCategory_id()})}" th:object="${newDish}">
     <input type="text" th:field="*{nameDish}" id="name" placeholder="Enter name dish"/>
     <div style="color:red" th:if="${#fields.hasErrors('nameDish')}" th:errors = "*{nameDish}">Error</div>
     <br/>
@@ -52,7 +52,6 @@
     <br/>
     <input type="submit" value="add" />
 </form>
-
 </div>
 
 </body>

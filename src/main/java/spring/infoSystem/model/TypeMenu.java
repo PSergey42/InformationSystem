@@ -6,12 +6,27 @@ import java.util.List;
 
 public class TypeMenu implements Serializable {
 
+    private int id;
     private String nameTypeMenu;
     private List<Category> categoryList;
 
     public TypeMenu(String typeMenu) {
         this.nameTypeMenu = typeMenu;
         this.categoryList = new ArrayList<>();
+    }
+
+    public TypeMenu(int id, String nameTypeMenu) {
+        this.id = id;
+        this.nameTypeMenu = nameTypeMenu;
+        this.categoryList = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public TypeMenu(){
@@ -24,14 +39,6 @@ public class TypeMenu implements Serializable {
 
     public void setNameTypeMenu(String nameTypeMenu) {
         this.nameTypeMenu = nameTypeMenu;
-    }
-
-    public List<Category> getCategoryList(){
-        return categoryList;
-    }
-
-    public void setCategoryList(List<Category> categoryList){
-        this.categoryList = categoryList;
     }
 
     public void addCategoryToTypeMenu(Category category){
