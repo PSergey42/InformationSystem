@@ -6,7 +6,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import spring.infoSystem.model.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class RestaurantDAO_DB {
@@ -16,6 +20,8 @@ public class RestaurantDAO_DB {
     private static int CATEGORY_ID = 100;
     private static int DISH_ID = 200;
     private static int DRINK_ID = 300;
+
+    List<String> name;
 
     @Autowired
     public RestaurantDAO_DB(JdbcTemplate jdbcTemplate){
@@ -80,12 +86,17 @@ public class RestaurantDAO_DB {
                         "WHERE c.id = ?", new Object[]{nameCategory_id}, new BeanPropertyRowMapper<>(Drink.class));
     }
 
-//    public List<> indexAll(int category_id){
-//        return jdbcTemplate.query("SELECT * FROM category " +
-//                "left join dish on category.id = dish.category_id " +
-//                "left join drink d on category.id = d.category_id " +
-//                "where category.id = ?", new Object[]{category_id},
-//                new BeanPropertyRowMapper<>());
-//    }
+    public List<CheckIn> search(String name){
+        List<CheckIn> search = new ArrayList<>();
+        List<Dish> dish;
+        List<Drink> drinks;
+        dish = jdbcTemplate.query("SELECT nameDish FROM dish ", new BeanPropertyRowMapper<>(Dish.class));
+        drinks = jdbcTemplate.query("SELECT nameDrink FROM drink ", new BeanPropertyRowMapper<>(Drink.class));
+
+        drinks.stream().filter(x -> Objects.equals(x.getNameDrink(), name)).forEach(search::add);
+        dish.stream().filter(x -> Objects.equals(x.getNameDish(), name)).forEach(search::add);
+
+        return search;
+    }
 
 }

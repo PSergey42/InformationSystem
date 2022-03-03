@@ -7,8 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring.infoSystem.dao.RestaurantDAO_DB;
 import spring.infoSystem.model.Category;
+import spring.infoSystem.model.CheckIn;
 import spring.infoSystem.model.Dish;
+import spring.infoSystem.model.Drink;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 //@RequestMapping("/restaurant")
@@ -22,7 +26,14 @@ public class RestaurantController {
     }
 
     @GetMapping()
-    public String startMenu(){
+    public String startMenu(Model model){
+
+        List<Dish> dishes = dao_db.indexDish();
+        List<Drink> drinks = dao_db.indexDrink();
+
+        model.addAttribute("searchDish", dishes);
+        model.addAttribute("searchDrink", drinks);
+
         return "restaurant/index";
     }
 
@@ -105,6 +116,25 @@ public class RestaurantController {
                                         Model model){
         model.addAttribute("drinkFromCategory", dao_db.indexDrinkFromCategory(category_id));
         return "restaurant/barCardPage";
+    }
+
+
+    //search
+    @PostMapping("/search")
+    public String searchAll(@RequestParam(required=false) String search, Model model){
+        List<Dish> dishes = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+        List<CheckIn> listAll = dao_db.search(search);
+        for(int i = 0; i < listAll.size(); i++){
+            if(listAll.get(i) instanceof Dish) dishes.add((Dish)listAll.get(i));
+            if(listAll.get(i) instanceof Drink) drinks.add((Drink)listAll.get(i));
+        }
+        model.addAttribute("searchDish", dishes);
+        model.addAttribute("searchDrink", drinks);
+        for (int j = 0; j < listAll.size(); j++){
+            System.out.println("-----------" + listAll.get(j));
+        }
+        return "/restaurant/index";
     }
 
 //    private final RestaurantDAO dao;
@@ -233,19 +263,6 @@ public class RestaurantController {
 //        return "redirect:/typeMenu/TwoType/BarCard";
 //    }
 //
-//    @PostMapping("/search")
-//    public String searchAll(@RequestParam(required=false) String search, Model model){
-//        List<Dish> dishes = new ArrayList<>();
-//        List<Drink> drinks = new ArrayList<>();
-//        List<CheckIn> listAll = dao.searchAll(search);
-//        for(int i = 0; i < listAll.size(); i++){
-//            if(listAll.get(i) instanceof Dish) dishes.add((Dish)listAll.get(i));
-//            if(listAll.get(i) instanceof Drink) drinks.add((Drink)listAll.get(i));
-//        }
-//        model.addAttribute("searchDish", dishes);
-//        model.addAttribute("searchDrink", drinks);
-//        return "/restaurant/index";
-//    }
 //
 //    @GetMapping("/menu/showDish/{nameDish}")
 //    public String showDish(@PathVariable("nameDish") String nameDish,
