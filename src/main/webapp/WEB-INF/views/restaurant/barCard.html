@@ -10,36 +10,42 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <!--        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>-->
         <li class="dws-li"><a th:href="@{/category/Menu/1}"><i aria-hidden="true"></i>Menu</a></li>
-        <!--        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>-->
         <li class="dws-li"><a th:href="@{/category/BarCard/2}"><i aria-hidden="true"></i>Bar Card</a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
         <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
     </ul>
 </div>
 <br/>
-<div class="menu-links" th:each="barCard : ${category}">
-    <a th:href = "@{/barCard/{category_id}(category_id=${barCard.getId()})}" class="menu-links__item "
-       th:text="${barCard.getNameCategory}"></a>
+<div class="menu-links">
+    <table border="1" style="width:300px">
+        <tr>
+            <td>NameCategory:   </td>
+            <td>Delete:        </td>
+        </tr>
+        <tr th:each="barCard : ${category}">
+            <td>
+                <a th:href="@{/barCard/{category_id}(category_id=${barCard.getId()})}"
+                   class="menu-links__item "
+                   th:text="${barCard.getNameCategory()}"></a>
+            </td>
+            <td>
+                <form th:method="DELETE" th:action="@{/categoryBarCard/{nameCategory}(nameCategory=${barCard.getNameCategory()})}" >
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+        </tr>
+    </table>
 </div>
 <br/>
 
-<!--<div class="form">-->
-<!--<form th:method="POST" th:action="@{/typeMenu/TwoType/{typeMenu}(typeMenu=${newCategory.getNameTypeMenu()})}" th:object="${newCategory}">-->
-<!--    <input type="text" th:field="*{nameCategory}" id="name" placeholder="Enter name category"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('nameCategory')}" th:errors = "*{nameCategory}">Error</div>-->
-<!--    <br/>-->
-<!--    <input type="submit" value="Create" />-->
-<!--</form>-->
-
-<!--<br/>-->
-
-<!--<form th:method="DELETE" th:action="@{/typeMenu/TwoType}" >-->
-<!--    <input type="text" name="nameCategoryDelete" id="nameCategory" placeholder="Enter name category"/>-->
-<!--    <br/>-->
-<!--    <input type="submit" value="Delete" />-->
-<!--</form>-->
-<!--</div>-->
+<div class="form">
+<form th:method="POST" th:action="@{/category/BarCard/{typeMenu}(typeMenu=${newCategory.getTypeMenu_id()})}" th:object="${newCategory}">
+    <input type="text" th:field="*{nameCategory}" id="name" placeholder="Enter name category"/>
+    <div style="color:red" th:if="${#fields.hasErrors('nameCategory')}" th:errors = "*{nameCategory}">Error</div>
+   <br/>
+    <input type="submit" value="Create" />
+</form>
+</div>
 </body>
 </html>

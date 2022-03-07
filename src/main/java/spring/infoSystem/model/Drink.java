@@ -9,17 +9,16 @@ import java.util.List;
 
 public class Drink implements CheckIn{
 
-    private int id;
+    private String id;
     @NotEmpty(message = "Name should not be empty")
     String nameDrink;
-    //String nameCategory;
-    @Min(value = 0, message = "Error")
+    @Min(value = 1, message = "Error")
     double fortressDrink;
-    @Min(value = 0, message = "Error")
+    @Min(value = 1, message = "Error")
     double sizeDrink;
-    @Min(value = 0, message = "Error")
+    @Min(value = 1, message = "Error")
     double priceDrink;
-    int category_id;
+    String category_id;
 
     public Drink(String nameDrink, double fortressDrink, double sizeDrink, double priceDrink) {
         this.nameDrink = nameDrink;
@@ -61,5 +60,25 @@ public class Drink implements CheckIn{
 
     public void setPriceDrink(double priceDrink) {
         this.priceDrink = priceDrink;
+    }
+
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Drink{" +
+                "id=" + id +
+                ", nameDrink='" + nameDrink + '\'' +
+                ", fortressDrink=" + fortressDrink +
+                ", sizeDrink=" + sizeDrink +
+                ", priceDrink=" + priceDrink +
+                ", category_id=" + category_id +
+                '}';
     }
 }

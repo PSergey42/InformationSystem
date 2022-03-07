@@ -11,9 +11,7 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-<!--        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>-->
         <li class="dws-li"><a th:href="@{/category/Menu/1}"><i aria-hidden="true"></i>Menu</a></li>
-<!--        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>-->
         <li class="dws-li"><a th:href="@{/category/BarCard/2}"><i aria-hidden="true"></i>Bar Card</a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
         <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
@@ -39,7 +37,7 @@
     <br>
         <h1 class="zg" th:if="${searchDrink.size}" >Drink:</h1>
     <li  th:each="drinks : ${searchDrink}">
-        <a th:href = "@{/showDrink/{drink}(drink=${drinks.getNameDrink})}"
+        <a th:href = "@{/infoDrink/{nameDrink}(nameDrink=${drinks.getNameDrink})}"
            th:text="${drinks.getNameDrink()}"></a></li>
 </ul>
 

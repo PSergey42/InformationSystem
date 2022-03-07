@@ -10,9 +10,7 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <!--        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>-->
         <li class="dws-li"><a th:href="@{/category/Menu/1}"><i aria-hidden="true"></i>Menu</a></li>
-        <!--        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>-->
         <li class="dws-li"><a th:href="@{/category/BarCard/2}"><i aria-hidden="true"></i>Bar Card</a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
         <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
@@ -27,7 +25,7 @@
     </tr>
     <tr th:each="drink : ${drinkIndex}">
         <td>
-            <a th:href="@{/showDrink/{drink}(drink=${drink.getNameDrink})}" th:text="${drink.getNameDrink}"></a>
+            <a th:href="@{/infoDrink/{nameDrink}(nameDrink=${drink.getNameDrink})}" th:text="${drink.getNameDrink}"></a>
         </td>
         <td th:text="${drink.getPriceDrink() + '$'}"></td>
     </tr>

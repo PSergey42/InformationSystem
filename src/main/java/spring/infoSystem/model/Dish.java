@@ -7,24 +7,22 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 public class Dish implements CheckIn {
 
-    private int id;
+    private String id;
     @NotEmpty(message = "Name should not be empty")
     String nameDish;
-//    String nameCategory;
     @NotEmpty(message = "Name should not be empty")
     String consistDish;
-    @Min(value = 0, message = "Error")
+    @Min(value = 1, message = "Error")
     double calories;
-    @Min(value = 0, message = "Error")
+    @Min(value = 1, message = "Error")
     double weight;
-    @Min(value = 0, message = "Error")
+    @Min(value = 1, message = "Error")
     double price;
-    int category_id;
+    String category_id;
 
     public Dish(String nameDish, String consistDish,
                 double calories, double weight, double price) {
         this.nameDish = nameDish;
-        //this.nameCategory = nameCategory;
         this.consistDish = consistDish;
         this.calories = calories;
         this.weight = weight;
@@ -35,19 +33,19 @@ public class Dish implements CheckIn {
 
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getCategory_id() {
+    public String getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(int category_id) {
+    public void setCategory_id(String category_id) {
         this.category_id = category_id;
     }
 
@@ -91,4 +89,16 @@ public class Dish implements CheckIn {
         this.nameDish = nameDish;
     }
 
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", nameDish='" + nameDish + '\'' +
+                ", consistDish='" + consistDish + '\'' +
+                ", calories=" + calories +
+                ", weight=" + weight +
+                ", price=" + price +
+                ", category_id=" + category_id +
+                '}';
+    }
 }

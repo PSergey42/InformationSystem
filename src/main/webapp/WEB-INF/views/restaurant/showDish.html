@@ -10,8 +10,8 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>
+        <li class="dws-li"><a th:href="@{/category/Menu/1}"><i aria-hidden="true"></i>Menu</a></li>
+        <li class="dws-li"><a th:href="@{/category/BarCard/2}"><i aria-hidden="true"></i>Bar Card</a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
         <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
     </ul>
@@ -28,8 +28,8 @@
 <br/>
 
 <div class="form2">
-<form th:method="PATCH" th:action="@{/dish/{nameDish}(nameDish=${infoDish.getNameDish()})}"
-      th:object="${infoDish}">
+<form th:method="PATCH" th:action="@{/dish/{nameDish}(nameDish=${editDish.getNameDish()})}"
+      th:object="${editDish}">
     <label for="consist">Enter consist: </label>
     <input type="text" th:field="*{consistDish}" id="consist"/>
     <div style="color:red" th:if="${#fields.hasErrors('consistDish')}" th:errors = "*{consistDish}">Error</div>

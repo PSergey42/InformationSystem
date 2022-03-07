@@ -10,8 +10,8 @@
 <div class="dws-menu">
     <ul class="dws-ul">
         <li class="dws-li"><a th:href="@{/}"><i aria-hidden="true"></i>Home</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/OneType/Menu}"><i aria-hidden="true"></i>Menu</a></li>
-        <li class="dws-li"><a th:href="@{/typeMenu/TwoType/BarCard}"><i aria-hidden="true"></i>Bar Card</a></li>
+        <li class="dws-li"><a th:href="@{/category/Menu/1}"><i aria-hidden="true"></i>Menu</a></li>
+        <li class="dws-li"><a th:href="@{/category/BarCard/2}"><i aria-hidden="true"></i>Bar Card</a></li>
         <li class="dws-li"><a th:href="@{/menu}"><i aria-hidden="true"></i>AllDish</a></li>
         <li class="dws-li"><a th:href="@{/drink}"><i aria-hidden="true"></i>AllDrink</a></li>
     </ul>
@@ -19,33 +19,32 @@
 <br/>
 
 <ul class="dish">
-    <li><span>NameDrink</span><span th:text="${barCardIndex.getNameDrink()}"></span></li>
-    <li><span>Fortress Drink</span><span th:text="${barCardIndex.getFortressDrink() + '%'}"></span></li>
-    <li><span>Size Drink</span><span th:text="${barCardIndex.getSizeDrink() + 'ml'}"></span></li>
-    <li><span>Category Drink</span><span th:text="${barCardIndex.getNameCategory()}"></span></li>
-    <li><span>Price</span><span th:text="${barCardIndex.getPriceDrink + '$'}"></span></li>
+    <li><span>NameDrink</span><span th:text="${infoDrink.getNameDrink()}"></span></li>
+    <li><span>Fortress Drink</span><span th:text="${infoDrink.getFortressDrink() + '%'}"></span></li>
+    <li><span>Size Drink</span><span th:text="${infoDrink.getSizeDrink() + 'ml'}"></span></li>
+    <li><span>Price</span><span th:text="${infoDrink.getPriceDrink + '$'}"></span></li>
 </ul>
 <br/>
 
-<!--<div class="form2">-->
-<!--<form th:method="PATCH" th:action="@{/drink/{nameDrink}(nameDrink=${newBarCard.getNameDrink()})}"-->
-<!--      th:object="${newBarCard}">-->
-<!--    <label for="fortressDrink">Enter fortress drink: </label>-->
-<!--    <input type="text" th:field="*{fortressDrink}" id="fortressDrink"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('fortressDrink')}" th:errors = "*{fortressDrink}">Error</div>-->
-<!--    <label for="sizeDrink">Enter size drink: </label>-->
-<!--    <input type="text" th:field="*{sizeDrink}" id="sizeDrink"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('sizeDrink')}" th:errors = "*{sizeDrink}">Error</div>-->
-<!--    <label for="priceDrink">Enter price drink: </label>-->
-<!--    <input type="text" th:field="*{priceDrink}" id="priceDrink"/>-->
-<!--    <div style="color:red" th:if="${#fields.hasErrors('priceDrink')}" th:errors = "*{priceDrink}">Error</div>-->
-<!--    <br/>-->
-<!--    <input type="submit" value="Update!"/>-->
-<!--</form>-->
-<!--<form th:method="DELETE" th:action="@{/{nameCategory}(nameCategory=${barCardIndex.getNameDrink()})}" >-->
-<!--    <br/>-->
-<!--    <input type="submit" value="Delete" />-->
-<!--</form>-->
-<!--</div>-->
+<div class="form2">
+<form th:method="PATCH" th:action="@{/drink/{nameDrink}(nameDrink=${editDrink.getNameDrink()})}"
+      th:object="${editDrink}">
+    <label for="fortressDrink">Enter fortress drink: </label>
+    <input type="text" th:field="*{fortressDrink}" id="fortressDrink"/>
+    <div style="color:red" th:if="${#fields.hasErrors('fortressDrink')}" th:errors = "*{fortressDrink}">Error</div>
+    <label for="sizeDrink">Enter size drink: </label>
+    <input type="text" th:field="*{sizeDrink}" id="sizeDrink"/>
+    <div style="color:red" th:if="${#fields.hasErrors('sizeDrink')}" th:errors = "*{sizeDrink}">Error</div>
+    <label for="priceDrink">Enter price drink: </label>
+    <input type="text" th:field="*{priceDrink}" id="priceDrink"/>
+    <div style="color:red" th:if="${#fields.hasErrors('priceDrink')}" th:errors = "*{priceDrink}">Error</div>
+    <br/>
+  <input type="submit" value="Update!"/>
+</form>
+<form th:method="DELETE" th:action="@{/barCardInfo/{nameDrink}(nameDrink=${infoDrink.getNameDrink()})}" >
+    <br/>
+    <input type="submit" value="Delete" />
+</form>
+</div>
 </body>
 </html>

@@ -8,8 +8,7 @@ import java.util.List;
 
 public class Category implements Serializable {
 
-    private int id;
-//    private String nameTypeMenu;
+    private String id;
     @NotEmpty(message = "Name should not be empty")
     private String nameCategory;
     private int typeMenu_id;
@@ -28,17 +27,17 @@ public class Category implements Serializable {
         this.dishList = new ArrayList<>();
     }
 
-    public Category(int id, String nameCategory, int typeMenu_id) {
+    public Category(String id, String nameCategory, int typeMenu_id) {
         this.id = id;
         this.nameCategory = nameCategory;
         this.typeMenu_id = typeMenu_id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
