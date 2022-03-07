@@ -1,11 +1,13 @@
 package spring.infoSystem.model;
 
 import javax.validation.constraints.NotEmpty;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@XmlRootElement(name = "category")
+@XmlType(propOrder = {"id", "nameCategory", "typeMenu_id", "barCards", "dishList"})
 public class Category implements Serializable {
 
     private String id;
@@ -21,7 +23,6 @@ public class Category implements Serializable {
     }
 
     public Category(String nameCategory) {
-        //this.nameTypeMenu = typeMenu;
         this.nameCategory = nameCategory;
         this.barCards = new ArrayList<>();
         this.dishList = new ArrayList<>();
@@ -33,6 +34,27 @@ public class Category implements Serializable {
         this.typeMenu_id = typeMenu_id;
     }
 
+    @XmlElementWrapper(name="drinks", nillable = true)
+    @XmlElement(name = "drink")
+    public List<Drink> getBarCards() {
+        return barCards;
+    }
+
+    public void setBarCards(List<Drink> barCards) {
+        this.barCards = barCards;
+    }
+
+    @XmlElementWrapper(name="dishes", nillable = true)
+    @XmlElement(name = "dish")
+    public List<Dish> getDishList() {
+        return dishList;
+    }
+
+    public void setDishList(List<Dish> dishList) {
+        this.dishList = dishList;
+    }
+
+    @XmlAttribute
     public String getId() {
         return id;
     }
@@ -48,7 +70,7 @@ public class Category implements Serializable {
     public void setNameCategory(String nameCategory) {
         this.nameCategory = nameCategory;
     }
-
+    @XmlAttribute
     public int getTypeMenu_id() {
         return typeMenu_id;
     }

@@ -4,12 +4,18 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement(name = "drink")
+@XmlType(propOrder = {"id", "nameDrink", "fortressDrink", "sizeDrink","priceDrink", "category_id"})
 public class Drink implements CheckIn{
 
     private String id;
+    String category_id;
     @NotEmpty(message = "Name should not be empty")
     String nameDrink;
     @Min(value = 1, message = "Error")
@@ -18,7 +24,7 @@ public class Drink implements CheckIn{
     double sizeDrink;
     @Min(value = 1, message = "Error")
     double priceDrink;
-    String category_id;
+
 
     public Drink(String nameDrink, double fortressDrink, double sizeDrink, double priceDrink) {
         this.nameDrink = nameDrink;
@@ -29,7 +35,14 @@ public class Drink implements CheckIn{
 
     public Drink(){}
 
+    @XmlAttribute
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getNameDrink() {
         return nameDrink;
     }
@@ -62,6 +75,7 @@ public class Drink implements CheckIn{
         this.priceDrink = priceDrink;
     }
 
+    @XmlAttribute
     public String getCategory_id() {
         return category_id;
     }
@@ -81,4 +95,6 @@ public class Drink implements CheckIn{
                 ", category_id=" + category_id +
                 '}';
     }
+
+
 }

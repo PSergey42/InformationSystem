@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import spring.infoSystem.Parser.JaxbWorker;
 import spring.infoSystem.model.*;
 
 import java.util.*;
@@ -108,6 +109,55 @@ public class RestaurantDAO_DB {
         drinks.stream().filter(x -> x.getNameDrink().toUpperCase().trim().contains(name.toUpperCase().trim())).forEach(search::add);
         dishes.stream().filter(x -> x.getNameDish().toUpperCase().trim().contains(name.toUpperCase().trim())).forEach(search::add);
         return search;
+    }
+
+    public void saveData(){
+        List<Category> categoryList = jdbcTemplate.query("SELECT * FROM category ", new BeanPropertyRowMapper<>(Category.class));
+        List<TypeMenu> typeMenus = jdbcTemplate.query("SELECT * FROM typemenu ", new BeanPropertyRowMapper<>(TypeMenu.class));
+        List<Category> categoryList1 = new ArrayList<>();
+        List<Category> categoryList2 = new ArrayList<>();
+        categoryList.stream().filter(x -> x.getTypeMenu_id() == 1).forEach(categoryList1::add);
+        categoryList.stream().filter(x -> x.getTypeMenu_id() == 2).forEach(categoryList2::add);
+        categoryList2.forEach(x -> x.setBarCards(indexDrinkFromCategory(x.getId())));
+        categoryList1.forEach(x -> x.setDishList(indexDishFromCategory(x.getId())));
+        typeMenus.get(0).setCategoryList(categoryList1);
+        typeMenus.get(1).setCategoryList(categoryList2);
+        JaxbWorker jaxbWorker = new JaxbWorker(typeMenus);
+        jaxbWorker.convertDishOrDrinkToXml("D:/test.xml");
+    }
+    public void uploadData(){
+        List<TypeMenu> typeMenus = JaxbWorker.fromXmlToObject("D:/test.xml");
+        typeMenus.get(0).getCategoryList().forEach(x ->{insertCategoryParser(x,1); x.getDishList().forEach(y -> addDishParser(y, x.getId()));});
+        typeMenus.get(1).getCategoryList().forEach(x ->{insertCategoryParser(x,2); x.getBarCards().forEach(y -> addDrinkParser(y, x.getId()));});
+    }
+
+    public void insertCategoryParser(Category category, int typeMenu_id){
+        try{
+            jdbcTemplate.update("INSERT INTO category VALUES (?, ?, ?)", category.getId(), category.getNameCategory(), typeMenu_id);
+        } catch (org.springframework.dao.DuplicateKeyException e){
+            jdbcTemplate.update("UPDATE category SET nameCategory=? WHERE id=? and typeMenu_id=?", category.getNameCategory(), category.getId(), typeMenu_id);
+        }
+
+    }
+
+    public void addDishParser(Dish dish, String category_id){
+        try {
+            jdbcTemplate.update("INSERT INTO dish VALUES (?,?,?,?,?,?,?)", dish.getId(), dish.getNameDish(), dish.getConsistDish(),
+                    dish.getCalories(), dish.getWeight(), dish.getPrice(), category_id);
+        } catch (org.springframework.dao.DuplicateKeyException e){
+            jdbcTemplate.update("UPDATE dish SET consistDish=?, calories=?, weight=?, price=? WHERE id=? and category_id=?",  dish.getConsistDish(),
+                    dish.getCalories(), dish.getWeight(), dish.getPrice(), dish.getId(), category_id);
+        }
+    }
+
+    public void addDrinkParser(Drink drink, String category_id){
+        try {
+            jdbcTemplate.update("INSERT INTO drink VALUES (?,?,?,?,?,?)", drink.getId(), drink.getNameDrink(), drink.getFortressDrink(),
+                    drink.getSizeDrink(), drink.getPriceDrink(), category_id);
+        }catch (org.springframework.dao.DuplicateKeyException e){
+            jdbcTemplate.update("UPDATE drink SET fortressDrink=?, sizeDrink=?, priceDrink=? WHERE id=? and category_id=?",  drink.getFortressDrink(),
+                    drink.getSizeDrink(), drink.getPriceDrink(), drink.getId(), category_id);
+        }
     }
 
 }

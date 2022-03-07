@@ -203,4 +203,16 @@ public class RestaurantController {
         return "/restaurant/index";
     }
 
+    @GetMapping("/save")
+    public String saveData() {
+        dao_db.saveData();
+        return "redirect:/";
+    }
+
+    @GetMapping("/upload")
+    public String uploadData(){
+        dao_db.uploadData();
+        return "redirect:/";
+    }
+
 }

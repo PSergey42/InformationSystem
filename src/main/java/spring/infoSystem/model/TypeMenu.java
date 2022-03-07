@@ -1,9 +1,12 @@
 package spring.infoSystem.model;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement(name = "TypeMenu")
+@XmlType(propOrder = {"id", "nameTypeMenu", "categoryList"})
 public class TypeMenu implements Serializable {
 
     private int id;
@@ -21,6 +24,23 @@ public class TypeMenu implements Serializable {
         this.categoryList = new ArrayList<>();
     }
 
+    public TypeMenu(int id, String nameTypeMenu, List<Category> categoryList) {
+        this.id = id;
+        this.nameTypeMenu = nameTypeMenu;
+        this.categoryList = categoryList;
+    }
+
+    @XmlElementWrapper(name="categoryList", nillable = true)
+    @XmlElement(name = "category")
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    @XmlAttribute
     public int getId() {
         return id;
     }

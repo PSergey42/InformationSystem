@@ -4,10 +4,17 @@ package spring.infoSystem.model;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+
+@XmlRootElement(name = "dish")
+@XmlType(propOrder = {"id", "nameDish", "consistDish", "calories","weight", "price", "category_id"})
 public class Dish implements CheckIn {
 
     private String id;
+    String category_id;
     @NotEmpty(message = "Name should not be empty")
     String nameDish;
     @NotEmpty(message = "Name should not be empty")
@@ -18,7 +25,7 @@ public class Dish implements CheckIn {
     double weight;
     @Min(value = 1, message = "Error")
     double price;
-    String category_id;
+
 
     public Dish(String nameDish, String consistDish,
                 double calories, double weight, double price) {
@@ -32,7 +39,7 @@ public class Dish implements CheckIn {
     public Dish(){}
 
 
-
+    @XmlAttribute
     public String getId() {
         return id;
     }
@@ -41,6 +48,7 @@ public class Dish implements CheckIn {
         this.id = id;
     }
 
+    @XmlAttribute
     public String getCategory_id() {
         return category_id;
     }
